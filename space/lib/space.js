@@ -1,15 +1,12 @@
-import { Space } from "./index.js";
+import { CyberSpace as Space } from "./index.js";
 
 class CyberSpace extends Space {
-    state = {
+    one = {
         one: {
-            one: {
-                one: 'one',
-                two: 123
-            }
-        },
-        two: Number()
-    };
+            one: 'one',
+            two: 123
+        }
+    }
 
     /** @type {{ one: { one: { one: string; two: number; } } }} */
     three;
