@@ -1,12 +1,9 @@
-const Apify = require('apify');
+import {Log} from '@apify/log';
+// import {Page} from '@types/puppeteer';
 
-const {log: logger} = require('@apify/log');
+import {trackPointer, sleep} from './tools';
 
-const {trackPointer} = require('./tools');
-
-const log = logger.child({prefix: 'Human'});
-
-const sleep = ms => new Promise(ok => setTimeout(ok, ms));
+const log = new Log().child({prefix: 'Human'});
 
 /**
  * Enables manual or automated simulation of human behavior in Playwright or Puppeteer {@link Page}.
@@ -28,119 +25,147 @@ const sleep = ms => new Promise(ok => setTimeout(ok, ms));
  * await human.type('#password', 'password');
  * await human.press('Enter').catch(() => human.click('#submit'));
  * ```
- * @type {import('./types.d').Human}
  */
 class Human {
-    #page;
+	#page;
 
-    #move;
+	#move;
 
-    #motion;
+	#motion;
 
-    #mouse;
+	#mouse;
 
-    #keyboard;
+	#keyboard;
 
-    #originalInstance;
+	#originalInstance;
 
-    /**
+	/**
      *
      * @param {object} instance Playwright or Puppeteer page or frame
      * @param {object} options Options setting behavior of the human
      * @param {boolean} options.debug Enable visual pointer tracker
      * @param {boolean} options.motion Enable automated pointer motion
      */
-    constructor(instance, options = {}) {
-        this.#originalInstance = instance;
+	constructor(instance, options = {}) {
+		this.#originalInstance = instance;
 
-        this.#page = instance.page ? instance.page() : instance;
-        this.#move = options.motion || options.human?.motion?.enable;
+		this.#page = instance.page ? instance.page() : instance;
+		this.#move = options.motion || options.human?.motion?.enable;
 
-        this.#mouse = this.#page.mouse || this.#page.page().mouse;
-        this.#keyboard = this.#page.keyboard || this.#page.page().keyboard;
+		this.#mouse = this.#page.mouse || this.#page.page().mouse;
+		this.#keyboard = this.#page.keyboard || this.#page.page().keyboard;
 
-        this.type = this.#humanize(this.type);
-        this.click = this.#humanize(this.click);
-        this.point = this.#sleepify(this.point);
-        this.press = this.#sleepify(this.press);
+		this.type = this.#humanize(this.type);
+		this.click = this.#humanize(this.click);
+		this.point = this.#sleepify(this.point);
+		this.press = this.#sleepify(this.press);
 
-        this.type = this.#loggify(this.type, 'type');
-        this.click = this.#loggify(this.click, 'click');
-        this.press = this.#loggify(this.press, 'press');
+		this.type = this.#loggify(this.type, 'type');
+		this.click = this.#loggify(this.click, 'click');
+		this.press = this.#loggify(this.press, 'press');
 
-        if (this.#move) {
-            this.type = this.pauseMotion(this.type);
-            this.click = this.pauseMotion(this.click);
-        }
+		if (this.#move) {
+			this.type = this.pauseMotion(this.type);
+			this.click = this.pauseMotion(this.click);
+		}
 
-        if (!Apify.Actor.isAtHome() && options.debug)
-            trackPointer(this.#page);
+		if (options.debug)
+			trackPointer(this.#page);
 
-        if (this.#page && this.#move)
-            this.startMotion();
-    }
+		if (this.#page && this.#move)
+			this.startMotion();
+	}
 
-    type = async (selector, text, options) => {
-        const characters = text.split('');
-        for (const character of characters)
-            await this.#originalInstance.type(selector, character, {...options, delay: Math.random() * 250});
-    };
+	/**
+     * Human-like typing simulation using random delay between characters.
+     * Humanized version of {@link Page}.type.
+     * @param options Identical to {@link Page}.type.
+     */
+	type = async (selector, text, options) => {
+		const characters = text.split('');
+		for (const character of characters)
+			await this.#originalInstance.type(selector, character, {...options, delay: Math.random() * 250});
+	};
 
-    click = async (selector, options) => this.#originalInstance.click(selector, {
-        ...options,
-        // position: {},
-        delay: Math.random() * 500,
-    });
+	/**
+     * Adds random delay to click actions.
+     * Humanized version of {@link Page}.click.
+     * @param options Identical to {@link Page}.click.
+     */
+	click = async (selector, options) => this.#originalInstance.click(selector, {
+		...options,
+		// position: {},
+		delay: Math.random() * 500,
+	});
 
-    point = async (x, y) => this.#mouse.move(x || Math.round(Math.random() * 800), y || Math.round(Math.random() * 800)).catch(error => null);
+	/**
+     * Moves the cursor to coordinates on page provided in arguments or to a random location by default.
+     */
+	point = async (x, y) => this.#mouse.move(x || Math.round(Math.random() * 800), y || Math.round(Math.random() * 800)).catch(error => null);
 
-    press = async (key, options) => this.#keyboard.press(key, {...options, delay: Math.random() * 500});
+	/**
+     * Performs a single keypress after a random delay.
+     * Humanized equivalent of {@link Page}.keyboard.press
+     */
+	press = async (key, options) => this.#keyboard.press(key, {...options, delay: Math.random() * 500});
 
-    sleep = async (limit = 3) => limit > 100 ?
-        sleep(Math.random() * limit) :
-        sleep(Math.random() * limit * 1000 + 1000);
+	sleep = async (limit = 3) => limit > 100 ?
+		sleep(Math.random() * limit) :
+		sleep(Math.random() * limit * 1000 + 1000);
 
-    #humanize = action => async (...args) => {
-        do await this.point(); while (Math.random() < 0.5);
-        return action(...args);
-    }
+	#humanize = action => async (...args) => {
+		do await this.point(); while (Math.random() < 0.5);
+		return action(...args);
+	};
 
-    #sleepify = action => async (...args) => {
-        await this.sleep();
-        return action(...args);
-    }
+	#sleepify = action => async (...args) => {
+		await this.sleep();
+		return action(...args);
+	};
 
-    #loggify = (action, name) => async (...args) => {
-        const logArgs = name === 'type' ?
-            JSON.stringify([args[0], '●'.repeat(args[1].length)]) :
-            JSON.stringify(args);
+	#loggify = (action, name) => async (...args) => {
+		const logArgs = name === 'type' ?
+			JSON.stringify([args[0], '●'.repeat(args[1].length)]) :
+			JSON.stringify(args);
 
-        log.info(`${name}: ${logArgs}`);
-        return action(...args);
-    }
+		log.info(`${name}: ${logArgs}`);
+		return action(...args);
+	};
 
-    startMotion = async () => {
-        const interval = Math.random() * 500 + 250;
-        this.#motion = setInterval(async () => {
-            await this.sleep(Math.random() * 500 + interval);
-            if (Math.round(Math.random()) % 2)
-                this.point().catch(() => {});
-        }, interval);
-    }
+	/**
+     * Starts random pointer motion to simulate human presence.
+     * Can be stopped manually with {@link Human.stopMotion}
+     */
+	startMotion = async () => {
+		const interval = Math.random() * 500 + 250;
+		this.#motion = setInterval(async () => {
+			await this.sleep(Math.random() * 500 + interval);
+			if (Math.round(Math.random()) % 2)
+				this.point().catch(() => { });
+		}, interval);
+	};
 
-    pauseMotion = action => async (...args) => {
-        if (this.#motion)
-            this.stopMotion();
+	/**
+     * Pauses random pointer motion to prevent interference with other interactions (automatic but can be done manually).
+     * Clears the interval set by {@link Human.startMotion}
+     */
+	pauseMotion = action => async (...args) => {
+		if (this.#motion)
+			this.stopMotion();
 
-        await action(...args);
+		await action(...args);
 
-        if (this.#move)
-            this.startMotion();
-    }
+		if (this.#move)
+			this.startMotion();
+	};
 
-    stopMotion = () => {
-        clearInterval(this.#motion);
-    }
+	/**
+     * Stops random pointer motion/human presence simulation.
+     * Clears the interval set by {@link Human.startMotion}
+     */
+	stopMotion = () => {
+		clearInterval(this.#motion);
+	};
 }
 
-module.exports = Human;
+export {Human};

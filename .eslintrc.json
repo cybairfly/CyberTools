@@ -1,10 +1,18 @@
 {
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true,
+        "jest": true
+    },
     "extends": [
         "@apify"
     ],
     "rules": {
-        "max-len": "off",
         "camelcase": "off",
+        "max-len": "off",
+        "no-tabs": "off",
         "no-shadow": "off",
         "no-console": "off",
         "no-unused-vars": "off",
@@ -20,6 +28,10 @@
         "curly": [
             "warn",
             "multi-or-nest"
+        ],
+        "indent": [
+            "warn",
+            "tab"
         ],
         "operator-linebreak": [
             "warn",
@@ -39,6 +51,8 @@
         "!*.ts",
         "!*.json",
         "~*",
-        "apify_storage"
+        ".vscode",
+        "apify_storage",
+        "**/node_modules/**"
     ]
 }

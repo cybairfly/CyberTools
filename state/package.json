@@ -1,0 +1,31 @@
+{
+	"name": "cyber-state",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Minimal library for centralized state management and automated state change logging and debugging.",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+	"scripts": {
+		"test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+	},
+	"dependencies": {
+		"@apify/log": "^2.4.2",
+		"unicode-escapes": "^1.0.0"
+	},
+	"devDependencies": {
+		"@types/jest": "^29.5.6",
+		"jest": "^29.7.0"
+	},
+    "repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-state"
+	},
+    "author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

@@ -7,5 +7,6 @@
 storage
 node_modules
 pnpm-lock.yaml
-INPUT.js
-INPUT_LOCAL.js
+package-lock.json
+/INPUT.js
+/INPUT_LOCAL.js

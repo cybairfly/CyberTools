@@ -1,0 +1,26 @@
+{
+	"name": "cyber-logger",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Extended log instance for advanced use of @apify/log",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+    "scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"@apify/log": "^2.4.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-logger"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

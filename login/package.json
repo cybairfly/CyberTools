@@ -1,0 +1,24 @@
+{
+	"name": "cyber-login",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Login tools for handling authentication",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+    "scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-login"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

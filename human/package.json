@@ -1,0 +1,27 @@
+{
+	"name": "cyber-human",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Utility library for simulation of human behavior in web browser using lower level automation libraries (Playwright & Puppeteer)",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+    "scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"@apify/log": "^2.4.2",
+		"@types/puppeteer": "^7.0.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-human"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

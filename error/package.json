@@ -1,0 +1,22 @@
+{
+  "name": "cyber-error",
+	"version": "0.0.1",
+	"description": "Intuitive error handling with native support for rethrows and custom flags along with an extendable dictionary of common errors",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+    "repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-error"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

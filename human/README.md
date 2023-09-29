@@ -1,9 +1,8 @@
-# Apify Human
-*RPA-focused human behavior simulation tool for browser automation using Playwright & Puppeteer*
+# Cyber/Human
 
-Humanized toolset for both manual and automated simulation of human behavior as a means of avoiding bot detection.
+> Humanized toolset for automated simulation of human behavior in browsers as a means of avoiding bot detection.
 
-Part of the general purpose web automation library: [Apify Robot](https://gitlab.com/cybaerfly/apify-robot)
+Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
 
 ## Features
 
@@ -44,7 +43,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-- Vasek Tobey Vlcek - maintainer
+- Vasek Codey Vlcek - maintainer
 - Milán Vasárhelyi - documentation
 
 List of [contributors](https://gitlab.com/cybaerfly/apify-human/-/graphs/master) participating in this project.

@@ -1,0 +1,19 @@
+{
+  "name": "cyber-tools",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Collection of tools for software automation and general software development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@apify/eslint-config": "^0.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2"
+  }
+}

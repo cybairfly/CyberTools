@@ -1,0 +1,24 @@
+{
+	"name": "cyber-gears",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Minor cyber-tools for every-day cyber-use",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+    "scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybaerfly/cyber-gears"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}

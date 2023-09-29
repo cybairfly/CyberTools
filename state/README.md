@@ -1,12 +1,14 @@
-# Cyber Space
-Minimal library for centralized state management and automated state change logging/debugging.
+# Cyber/State
+> Minimal library for centralized state management and automated state change logging and debugging.
 
-# Installation
+Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+
+## Installation
 ```
 npm i cyber-space
 ```
 
-# Utilization
+## Utilization
 
 1. **(recommended option)** extend the class and define your custom types for autocompletion
 ```js
