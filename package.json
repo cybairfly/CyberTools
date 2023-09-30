@@ -1,5 +1,6 @@
 {
   "name": "cyber-tools",
+  "type": "module",
   "version": "0.0.1",
   "description": "Cyber tools of all sorts.",
   "main": "index.js",

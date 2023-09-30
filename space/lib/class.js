@@ -1,10 +1,10 @@
-import { CyberSpace } from "./space.js";
+import { Space } from "./space.js";
 
 class Class {
 
     /**
      * 
-     * @param {CyberSpace} space 
+     * @param {Space} space 
      */
     constructor(space) {
         this.space = space;
@@ -19,7 +19,7 @@ class Class {
         // this.space.store({ testing: 321 });
         // space.store({ test: 909 })
         space.two = 321;
-        delete space.two;
+         delete space.two;
         // space.one = { b: 3 }
         space.one.one = {
             ble: new (class {
@@ -42,7 +42,7 @@ class Class {
     }
 }
 
-const space = new CyberSpace();
+const space = new Space();
 const thing = new Class(space);
 
 thing.method();

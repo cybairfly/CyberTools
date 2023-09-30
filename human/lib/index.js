@@ -1,10 +1,9 @@
-const Apify = require('apify');
+// const Apify = require('apify');
 
-const {log: logger} = require('@apify/log');
+import { Log } from '@apify/log';
+import { trackPointer } from './tools';
 
-const {trackPointer} = require('./tools');
-
-const log = logger.child({prefix: 'Human'});
+const log = new Log().child({prefix: 'Human'});
 
 const sleep = ms => new Promise(ok => setTimeout(ok, ms));
 
@@ -73,7 +72,8 @@ class Human {
             this.click = this.pauseMotion(this.click);
         }
 
-        if (!Apify.Actor.isAtHome() && options.debug)
+        // if (!Apify.Actor.isAtHome() && options.debug)
+        if (options.debug)
             trackPointer(this.#page);
 
         if (this.#page && this.#move)
@@ -143,4 +143,4 @@ class Human {
     }
 }
 
-module.exports = Human;
+export { Human };

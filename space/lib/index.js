@@ -3,7 +3,7 @@ import { Log } from '@apify/log';
 
 const logger = new Log();
 
-class CyberSpace {
+class Space {
     #options;
 
     /**
@@ -26,5 +26,5 @@ class CyberSpace {
     }
 }
 
-export default CyberSpace;
-export { CyberSpace }
+export { Space }
+export default Space;

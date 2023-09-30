@@ -15,23 +15,22 @@ const recurseProxify = (input, log) => {
         },
         set(target, property, value, receiver) {
             if (!Object.keys(target).includes(property)) {
-                log.warning(`Model and state are out of sync! Missing key: [${property}]`);
+                log.warning(`[${property}] was not defined! Model and state are out of sync.`);
             }
 
-            const original = JSON.parse(JSON.stringify(target));
+            const original = {...target};
 
-            // console.log("-", target);
-            const change = Reflect.set(target, property, value, receiver);
-            // console.log("+", target);
+            const result = Reflect.set(target, property, value, receiver);
 
-            const diffz = diff(original, JSON.parse(JSON.stringify(target)));
-            // console.log({...diffz});
-            log.info(`[${property}]:`, diffz);
+            const change = diff(original, target);
+            log.info(`[${property}] →`, change);
 
-            return change;
+            return result;
         },
         deleteProperty(target, property) {
-            log.warning(`Model and state to be out of sync! Removing key: [${property}]`);
+            log.warning(`[${property}] will be deleted! Model and state are out of sync.`);
+            log.info(`[${property}] → undefined`);
+
             return Reflect.deleteProperty(target, property);
         }
     });

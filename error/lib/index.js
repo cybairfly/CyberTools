@@ -5,7 +5,7 @@
 
 /* eslint-disable max-classes-per-file */
 /* eslint-disable lines-between-class-members */
-const RobotError = require('./robot.error');
+const { CyberError: Error } = require('./error');
 
 /**
  * Dictionary of custom errors for the robot
@@ -19,7 +19,7 @@ const RobotError = require('./robot.error');
     }
  */
 class Errors {
-    Access = class extends RobotError { }
+    Access = class extends Error { }
 
     access = {
         Blocked: class extends this.Access { },
@@ -28,7 +28,7 @@ class Errors {
         RateLimit: class extends this.Access { },
     }
 
-    Login = class extends RobotError { }
+    Login = class extends Error { }
 
     login = {
         Authentication: class extends this.Login { },
@@ -36,13 +36,13 @@ class Errors {
         InvalidPassword: class extends this.Login { },
     }
 
-    Network = class extends RobotError { }
+    Network = class extends Error { }
 
     network = {
         ConnectionAborted: class extends this.Network { },
     }
 
-    Retry = class extends RobotError {
+    Retry = class extends Error {
         retry = true;
     }
 
@@ -67,11 +67,11 @@ class Errors {
         },
     }
 
-    Silent = class extends RobotError {
+    Silent = class extends Error {
         silent = true;
     }
 
-    Status = class extends RobotError {
+    Status = class extends Error {
         /** @param {RobotErrorOptions & {statusCode: number}} options */
         constructor(options) {
             super(options);
@@ -82,7 +82,7 @@ class Errors {
     }
 
     session = {
-        Retain: class extends RobotError {
+        Retain: class extends Error {
             /** @param {RobotErrorOptions & {message: string}} options */
             constructor(options) {
                 super(options);
@@ -91,7 +91,7 @@ class Errors {
 
             retainSession = true;
         },
-        Retire: class extends RobotError {
+        Retire: class extends Error {
             /** @param {RobotErrorOptions & {message: string}} options */
             constructor(options) {
                 super(options);
@@ -100,7 +100,7 @@ class Errors {
 
             retireSession = true;
         },
-        Rotate: class extends RobotError {
+        Rotate: class extends Error {
             /** @param {RobotErrorOptions & {message: string}} options */
             constructor(options) {
                 super(options);
@@ -112,7 +112,7 @@ class Errors {
         },
     }
 
-    Timeout = class extends RobotError { }
+    Timeout = class extends Error { }
 
     timeout = {
         PageLoad: class extends this.Timeout { },
@@ -120,11 +120,11 @@ class Errors {
         Selector: class extends this.Timeout { },
     }
 
-    Verification = class extends RobotError {
+    Verification = class extends Error {
         message = this.message || 'Failed to verify result success';
     }
 
-    RetryLogin = class extends RobotError {
+    RetryLogin = class extends Error {
         /** @param {RobotErrorOptions & {requestSecrets: boolean}} options */
         constructor(options) {
             super(options);
@@ -135,11 +135,11 @@ class Errors {
         retry = true;
     }
 
-    Unknown = class extends RobotError {
+    Unknown = class extends Error {
         message = this.message || 'ATTENTION --- UNKNOWN ERROR DETECTED!';
     }
 
-    ProcessPatterns = class extends RobotError {
+    ProcessPatterns = class extends Error {
         handler = context => {
             // handle patterns
         }
@@ -147,6 +147,6 @@ class Errors {
 }
 
 module.exports = {
-    RobotError,
+    Error,
     errors: new Errors(),
 };

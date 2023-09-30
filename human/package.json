@@ -1,5 +1,6 @@
 {
-	"name": "apify-human",
+	"name": "cyber-human",
+	"type": "module",
 	"version": "0.0.1",
 	"description": "Utility library for simulation of human behavior in web browser using lower level automation libraries (Playwright & Puppeteer)",
 	"main": "lib/index.js",
@@ -8,6 +9,7 @@
 		"README.md"
 	],
 	"dependencies": {
+		"@apify/log": "^2.4.2",
 		"@types/puppeteer": "^7.0.4",
 		"apify": "^3.1.8"
 	},

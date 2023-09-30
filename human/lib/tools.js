@@ -77,4 +77,4 @@ const pointerTracker = () => {
     }, false);
 };
 
-module.exports = {trackPointer};
+export { trackPointer };

@@ -1,6 +1,6 @@
-import { CyberSpace as Space } from "./index.js";
+import { Space as CyberSpace } from "./index.js";
 
-class CyberSpace extends Space {
+class Space extends CyberSpace {
     one = {
         one: {
             one: 'one',
@@ -12,4 +12,4 @@ class CyberSpace extends Space {
     three;
 }
 
-export { CyberSpace }
+export { Space }

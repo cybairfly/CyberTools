@@ -2,12 +2,12 @@
  * @typedef {import('./types').RobotErrorOptions} RobotErrorOptions
  */
 
-const model = require('./robot.error.model');
+const model = require('./model');
 
 const modelErrorProps = Object.keys(model);
 
 /* eslint-disable lines-between-class-members */
-module.exports = class RobotError extends Error {
+class CyberError extends global.Error {
     #data = null;
     #type = null;
     #cause = null;
@@ -44,8 +44,8 @@ module.exports = class RobotError extends Error {
                 .some(item => key === item))
             .forEach(([key, value]) => this[key] = value);
 
-        if (Error.captureStackTrace)
-            Error.captureStackTrace(this, this.constructor);
+        if (CyberError.captureStackTrace)
+            CyberError.captureStackTrace(this, this.constructor);
 
         if (options.error) {
             // TODO maybe elevate data
@@ -141,7 +141,7 @@ module.exports = class RobotError extends Error {
         }, {});
 
         if (this.cause) {
-            output.cause = this.cause instanceof RobotError ?
+            output.cause = this.cause instanceof CyberError ?
                 JSON.parse(JSON.stringify(this.cause)) :
                 this.cause.toString();
         }
@@ -149,3 +149,5 @@ module.exports = class RobotError extends Error {
         return Reflect.ownKeys(output).length ? output : null;
     }
 };
+
+module.exports = { CyberError };

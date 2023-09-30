@@ -1,5 +1,5 @@
-import { CyberSpace } from './space';
-import { RobotError, errors } from './error';
-import {} from './human'
+import { Human } from './human';
+import { Space } from './space';
+import { Error, errors } from './error';
 
-export { CyberSpace, RobotError, errors };
+export { Space, Human, Error,  errors };
