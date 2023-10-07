@@ -20,7 +20,11 @@ class Class {
         // space.store({ test: 909 })
         space.two = 321;
          delete space.two;
-        // space.one = { b: 3 }
+        space.one = { b: 3 }
+        space._test = 123;
+        space._test = {a: 1};
+        space._test.a = {b: {c: 1}};
+        space._test.a.b.c = 4;
         space.one.one = {
             ble: new (class {
                 test= 4321
