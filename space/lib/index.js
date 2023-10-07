@@ -1,4 +1,5 @@
-import { recurseProxify } from "./tools.js";
+import { SpaceInput } from "./input.js";
+import { isObject, recurseProxify } from "./tools.js";
 import { Log } from '@apify/log';
 
 const logger = new Log();
@@ -13,12 +14,42 @@ const logger = new Log();
 //     }
 // }
 
+
+
 class Space {
     #options;
     #secrets;
 
-    static Secret = class Secret {}
-    static secret = Symbol.for('secret');
+    // static #options = {
+    //     bypass: false,
+    //     secret: false,
+    // };
+
+    // static symbols = {
+    //     hide: Symbol.for('hide'),
+    //     show: Symbol.for('show'),
+    //     secret: Symbol.for('secret'),
+
+    // }
+
+    // static Secret = class Secret {}
+    // static secret = Symbol.for('secret');
+
+    static Input = SpaceInput;
+    // static store = (space, input, options) => new Space.Input({ input, options });
+    // static store = (space, input, options) => {
+    //     if (!isObject(input)) {
+    //         throw Error('Space.store input must be an object')
+    //     }
+
+    //     const spaceInput = new Space.Input({ input, options });
+    //     Object.entries(input).forEach(([key, value]) => {
+    //         space[key] = new Space.Input({ input: value, options });
+    //     });
+
+    //     spaceInput.input
+    //     space[Symbol.for('space-store')]
+    // }
 
     /**
      * 
@@ -35,7 +66,7 @@ class Space {
         this.#options = { syncMode: strict };
 
         const log = logger.child({ prefix: this.constructor.name });
-        const spaceProxy = recurseProxify(this, { log, secrets: this._secrets });
+        const spaceProxy = recurseProxify(this, { log, options: Space.options });
 
         return spaceProxy;
     }
@@ -45,6 +76,14 @@ class Space {
     // }
 
     [Symbol.for('secret')] = (input) => Object.entries(input).forEach(([key, value]) => this.#secrets[key] = value);
+
+    set [Symbol.for('space-store')](input) {
+
+    }
+
+    // static get options() {
+    //     return this.#options;
+    // }
 
     get [Symbol.for('secret')]() {
         return this.#secrets;

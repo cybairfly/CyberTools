@@ -24,6 +24,7 @@ class Class {
         space._test = 123;
         space._test = {a: 1};
         space._test.a = {b: {c: 1}};
+        space._test = new Space.Input({ a: { b: { c: 1 } } }, { bypass: true, secret: true });
         space._test.a.b.c = 4;
         space.one.one = {
             ble: new (class {
