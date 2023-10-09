@@ -21,10 +21,12 @@ class Class {
         space.two = 321;
          delete space.two;
         space.one = { b: 3 }
-        space._test = 123;
         space._test = {a: 1};
+        space._test = 123;
+        space._test = { ...space._test, b: 2 };
+        space._test = { a: 1 };
         space._test.a = {b: {c: 1}};
-        space._test = new Space.Input({ a: { b: { c: 1 } } }, { bypass: true, secret: true });
+        space._test = new Space.Input({ a: { b: { c: 1 }, more: { z: 123 }, zero: [1, 2, 3] } }, { bypass: true, redact: true, secret: true });
         space._test.a.b.c = 4;
         space.one.one = {
             ble: new (class {
