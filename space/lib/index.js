@@ -1,5 +1,5 @@
 import { SpaceInput } from "./input.js";
-import { isObject, recurseProxify } from "./tools.js";
+import { isObject, proxify } from "./tools.js";
 import { Log } from '@apify/log';
 
 const logger = new Log();
@@ -66,7 +66,7 @@ class Space {
         this.#options = { syncMode: strict };
 
         const log = logger.child({ prefix: this.constructor.name });
-        const spaceProxy = recurseProxify(this, { log, options: Space.options });
+        const spaceProxy = proxify({ log })(this);
 
         return spaceProxy;
     }

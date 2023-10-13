@@ -1,14 +1,25 @@
 import { diff } from 'deep-object-diff';
 import Space from './index.js';
 
-const revokeString = 'revoke-proxy';
-const revokeSymbol = Symbol.for(revokeString);
+const string = 'proxy-metadata';
+const symbol = Symbol.for(string);
 
 const isObject = (value) => {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 };
 
-const possiblyDeproxify = input => input[revokeSymbol] ? ({ ...input }) : input;
+const deproxify = input => input[symbol] ? ({ ...input }) : input;
+
+const enforceOptions = ({ target, property, options, symbol }) => target[property]?.[symbol]?.options || options;
+
+const checkTypes = ({ original, updated }) => {
+    const typeFail = original && (typeof original !== typeof updated || original === null && updated !== null || Array.isArray(original) && !Array.isArray(updated));
+
+    if (typeFail) {
+        console.log({ original, updated });
+        throw Error('type mismatch');
+    }
+};
 
 const recurseRedact = input => {
     if (!isObject(input)) {
@@ -23,119 +34,120 @@ const recurseRedact = input => {
     return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, recurseRedact(value)]));
 }
 
+const logResult = ({
+    regular: ({ property, value, log }) => {
+        isObject(value) ? log.info(`[${property}] ►`, value) : log.info(`[${property}] ► ${value}`);
+    },
+    special: ({ property, options, value, log }) => {
+        isObject(value) ?
+            options.redact ?
+                log.info(`[${property}] ►`, recurseRedact(value)) :
+                log.info(`[${property}] ► <secret>`) :
+            log.info(`[${property}] ► <secret>`);
+    }
+});
+
 /** @param {{input: import('./input.js').SpaceInput} | any} */
-const recurseProxify = (input, { log, options }) => {
+const proxify = ({ log, options }) => input => {
     if (!isObject(input))
         return input;
 
-    // TODO need to proxify properties one by one, this break references to original inputs
-    // const proxifyProperty = ([key, value]) => [key, recurseProxify(value, { log })];
-    // const target = Object.fromEntries(Object.entries(input).map(proxifyProperty));
-
-    const proxifyProperty = (input, { log, options }) => ([key, value]) => input[key] = recurseProxify(value, { log, options });
-    // const root = Object.fromEntries(Object.entries(input).map(proxifyProperty({ log, options })));
-    Object.entries(input).forEach(proxifyProperty(possiblyDeproxify(input), { log, options }));
+    Object
+        .entries(input)
+        .forEach(([key, value]) => input[key] = proxify({ log, options })(deproxify(value)));
 
     const { proxy, revoke } = Proxy.revocable(input, {
-        // get(target, prop, receiver) {
-        //     const value = Reflect.get(target, prop, receiver);
+        // get(target, property, receiver) {
+        //     const isProxy = target[property]?.[symbol];
+        //     if (isProxy)
+        //         return Reflect.get(target, property, receiver);
 
-        //     // if (value instanceof Space.Input) {
-        //     //     const { content, options } = value;
+        //     if (value instanceof Space.Input) {
+        //         const { content, options } = value;
 
-        //     //     if (!isObject(content) || options.bypass)
-        //     //         return content;
+        //         if (!isObject(content) || options.bypass)
+        //             return content;
 
-        //     //     if (options.secret) {
-        //     //         return proxify(new Space.Input({ input: content, options }), { log });
-        //     //     }
-        //     // }
+        //         if (options.secret) {
+        //             return proxify({ log })(new Space.Input({ input: content, options }));
+        //         }
+        //     }
 
-        //     return Reflect.get(target, prop, target);
-        //     // return proxify(value, { log, options });
+        //     const options = target[property]?.[symbol]?.options;
+        //     if (options.bypass) {
+        //         return Reflect.get(target, property, receiver);
+        //     }
+
+        //     const result = Reflect.get(target, property, receiver);
+
+        //     return proxify({ log })(result);
         // },
         set(target, property, value, receiver) {
-            // if (target?.constructor?.name === Space.Secrets.name) {
-            //     const result = Reflect.set(target, property, value, receiver);
-            //     log.info(`[${property}] → <redacted>`);
-
-            //     return result;
-            // }
+            // TODO check options and only proxify from within setter on demand
+            const options = target[property]?.[symbol]?.options;
 
             if (typeof property === 'symbol') {
                 return Reflect.set(target, property, value, receiver);
             }
 
-
-            // if (value[revokeSymbol]) {
-            //     target[property] = possiblyDeproxify(target[property]);
-            // }
-
             if (!Object.keys(target).includes(property)) {
                 // log.warning(`[${property}] was not defined! Model and state are out of sync.`);
             }
 
-            // if (value instanceof Space.Input) {
-            //     const { content, options } = value;
-
-            //     log.info(`[${property}] → <secret>`);
-
-
-            //     // const result = recurseProxify(new Space.Input(content, options), { log, options });
-
-            //     return Reflect.set(target, property, proxify(value, { log, options }), receiver);
-            // }
-
-            const original = JSON.parse(JSON.stringify(target));
-
-            const isSpaceInput = value instanceof Space.Input;
-            if (isSpaceInput) {
+            if (value instanceof Space.Input) {
                 const { content, options } = value;
 
-                const result = Reflect.set(target, property, recurseProxify(possiblyDeproxify(content), { log, options }), receiver);
+                if (options?.strict) {
+                    checkTypes({ original: target[property], updated: content });
+                }
 
-                isObject(value) ?
-                    options.redact ?
-                        log.info(`[${property}] ►`, recurseRedact(content)) :
-                        log.info(`[${property}] ► <secret>`) :
-                    log.info(`[${property}] ► <secret>`);
+                if (options.bypass) {
+                    const result = Reflect.set(target, property, value, receiver);
 
+                    logResult.regular({ property, options, value: content, log });
+
+                    return result;
+                }
+
+                const proxy = proxify({ log, options })(content);
+                const result = Reflect.set(target, property, proxy, receiver);
+
+                logResult.special({ property, options, value: content, log });
 
                 return result;
             }
 
-            const result = Reflect.set(target, property, recurseProxify(possiblyDeproxify(value), { log, options }), receiver);
-
-            // const result = Reflect.set(target, property, value, receiver);
-
-            const change = diff(original, target);
-            // log.info(`[${property}] →`, change);
-
-            if (options?.secret) {
-                isObject(value) ?
-                    options.redact ?
-                        log.info(`[${property}] ►`, recurseRedact(content)) :
-                        log.info(`[${property}] ► <secret>`) :
-                    log.info(`[${property}] ► <secret>`);
-            } else {
-                // log.info(`[${property}] ◄`, original);
-                // log.info(`[${property}] ►`, target);
-                isObject(value) ? log.info(`[${property}] ►`, value) : log.info(`[${property}] ► ${value}`);
+            if (options?.strict) {
+                checkTypes({ original: target[property], updated: value });
             }
+
+            const proxy = proxify({ log, options })(deproxify(value));
+            const result = Reflect.set(target, property, proxy, receiver);
+
+            if (options?.secret)
+                logResult.special({ property, options, value, log });
+            else
+                logResult.regular({ property, value, log });
 
             return result;
         },
         deleteProperty(target, property) {
-            // log.warning(`[${property}] will be deleted! Model and state are out of sync.`);
-            log.info(`[${property}]: undefined`);
+            const options = target[property]?.[symbol]?.options;
 
-            return Reflect.deleteProperty(target, property);
+            if (options?.delete) {
+                log.warning(`[${property}] will be deleted! Model and state are out of sync.`);
+                log.info(`[${property}]: undefined`);
+
+                return Reflect.deleteProperty(target, property);
+            }
+
+            throw Error('cannot delete');
         }
     });
 
-    proxy[revokeSymbol] = revoke;
+    proxy[symbol] = { revoke, options };
 
     return proxy;
 }
 
-export { isObject, recurseProxify }
+export { isObject, proxify }
