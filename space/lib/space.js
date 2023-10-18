@@ -11,8 +11,12 @@ class Space extends CyberSpace {
     /** @type {{ one: { one: { one: string; two: number; } } }} */
     three;
 
-    secrets() {
-        return this[Space.secrets];
+    // secrets() {
+    //     return this[Space.secrets];
+    // }
+
+    secrets = {
+        b: {c: 3}
     }
 }
 

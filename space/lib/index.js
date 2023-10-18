@@ -18,7 +18,7 @@ const logger = new Log();
 
 class Space {
     #options;
-    #secrets;
+    #secrets = {a:1};
 
     // static #options = {
     //     bypass: false,
@@ -66,6 +66,11 @@ class Space {
         this.#options = { syncMode: strict };
 
         const log = logger.child({ prefix: this.constructor.name });
+        // Object.keys(this).forEach((key) => {
+        //     this[key] = proxify({ log, options: { root: true } })(this[key]);
+        // });
+
+        // this.#secrets = proxify({ log, options: { root: true } })(this.#secrets);
         const spaceProxy = proxify({ log })(this);
 
         return spaceProxy;
@@ -84,6 +89,10 @@ class Space {
     // static get options() {
     //     return this.#options;
     // }
+
+    get secrets() {
+        return this.#secrets;
+    }
 
     get [Symbol.for('secret')]() {
         return this.#secrets;

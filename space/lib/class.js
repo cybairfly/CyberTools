@@ -20,15 +20,20 @@ class Class {
         // space.store({ test: 909 })
         space.two = 321;
         //  delete space.two;
-        space.one = { b: 3 }
+        // space.one = { b: 3 }
         space._test = {a: 1};
         space._test = 123;
         space._test = { ...space._test, b: 2 };
         space._test = { a: 1 };
         space._test.a = {b: {c: 1}};
-        space._test = new Space.Input({ a: { b: { c: 4 }, more: { z: 123 }, zero: [1, 2, 3] } }, { bypass: true, redact: true, secret: true, strict: true, delete: true });
-        // delete space._test;
-        space._test = 4;
+        space._test = new Space.Input({ a: { b: { c: 4 }, more: { z: 123 }, zero: [1, 2, 3] } }, { bypass: false, redact: true, secret: true, strict: false, delete: true });
+        // space._test = {a: {b: {c: 5}}};
+        space._test = {a: {b: {c: 5}}};
+        space._test.a.b.c = 3;
+        space._test.a.b = 2;
+        space._test.a = 1;
+        space._test = 0;
+        delete space._test;
         space.one.one.two = 123;
         space.one.one = {
             ble: new (class {
@@ -38,6 +43,7 @@ class Class {
                 }
             })
         }
+
         space.one.one.zero = 0;
         // space.meh = 14;
         space.one.one.ble.me();

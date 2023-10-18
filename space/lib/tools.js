@@ -1,18 +1,22 @@
 import { diff } from 'deep-object-diff';
 import Space from './index.js';
 
-const string = 'proxy-metadata';
+const string = 'metadata';
 const symbol = Symbol.for(string);
 
 const isObject = (value) => {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 };
 
-const deproxify = input => input[symbol] ? ({ ...input }) : input;
+const isSpecial = input => input?.[symbol];
+const deproxify = input => isSpecial ? ({ ...input }) : input;
 
 const enforceOptions = ({ target, property, options, symbol }) => target[property]?.[symbol]?.options || options;
 
 const checkTypes = ({ original, updated }) => {
+    if (original === null || updated === null)
+        return;
+
     const typeFail = original && (typeof original !== typeof updated || original === null && updated !== null || Array.isArray(original) && !Array.isArray(updated));
 
     if (typeFail) {
@@ -34,6 +38,30 @@ const recurseRedact = input => {
     return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, recurseRedact(value)]));
 }
 
+const handleUpdate = ({ log, options }) => ({ target, property, value, receiver }) => {
+    if (!options || options?.bypass) {
+        const result = Reflect.set(target, property, value, receiver);
+
+        logResult.regular({ property, options, value, log });
+
+        return result;
+    }
+
+    if (options?.strict) {
+        checkTypes({ original: target[property], updated: value });
+    }
+
+    const proxy = proxify({ log, options })(deproxify(value));
+    const result = Reflect.set(target, property, proxy, receiver);
+
+    if (options?.secret)
+        logResult.special({ property, options, value, log });
+    else
+        logResult.regular({ property, value, log });
+
+    return result;
+}
+
 const logResult = ({
     regular: ({ property, value, log }) => {
         isObject(value) ? log.info(`[${property}] ►`, value) : log.info(`[${property}] ► ${value}`);
@@ -52,39 +80,38 @@ const proxify = ({ log, options }) => input => {
     if (!isObject(input))
         return input;
 
-    Object
-        .entries(input)
-        .forEach(([key, value]) => input[key] = proxify({ log, options })(deproxify(value)));
+    if (options) {
+        Object
+            .entries(input)
+            .forEach(([key, value]) => input[key] = proxify({ log, options })(deproxify(value)));
+    }
 
     const { proxy, revoke } = Proxy.revocable(input, {
-        // get(target, property, receiver) {
-        //     const isProxy = target[property]?.[symbol];
-        //     if (isProxy)
-        //         return Reflect.get(target, property, receiver);
+        get(target, property, receiver) {
+            const result = Reflect.get(target, property, receiver);
 
-        //     if (value instanceof Space.Input) {
-        //         const { content, options } = value;
+            if (typeof property === 'symbol') {
+                return result;
+            }
 
-        //         if (!isObject(content) || options.bypass)
-        //             return content;
+            if (isSpecial(result)) {
+                // result[symbol]?.revoke?.();
+                // Reflect.set(target, property, result, receiver);
 
-        //         if (options.secret) {
-        //             return proxify({ log })(new Space.Input({ input: content, options }));
-        //         }
-        //     }
+                return result;
+            }
 
-        //     const options = target[property]?.[symbol]?.options;
-        //     if (options.bypass) {
-        //         return Reflect.get(target, property, receiver);
-        //     }
+            if (options?.bypass) {
+                return result;
+            }
 
-        //     const result = Reflect.get(target, property, receiver);
+            const proxy = proxify({ log })(result);
 
-        //     return proxify({ log })(result);
-        // },
+            return proxy;
+        },
         set(target, property, value, receiver) {
             // TODO check options and only proxify from within setter on demand
-            const options = target[property]?.[symbol]?.options;
+            options = options || target[property]?.[symbol]?.options;
 
             if (typeof property === 'symbol') {
                 return Reflect.set(target, property, value, receiver);
@@ -97,39 +124,10 @@ const proxify = ({ log, options }) => input => {
             if (value instanceof Space.Input) {
                 const { content, options } = value;
 
-                if (options?.strict) {
-                    checkTypes({ original: target[property], updated: content });
-                }
-
-                if (options.bypass) {
-                    const result = Reflect.set(target, property, value, receiver);
-
-                    logResult.regular({ property, options, value: content, log });
-
-                    return result;
-                }
-
-                const proxy = proxify({ log, options })(content);
-                const result = Reflect.set(target, property, proxy, receiver);
-
-                logResult.special({ property, options, value: content, log });
-
-                return result;
+                return handleUpdate({ log, options })({ target, property, value: content, receiver });
             }
 
-            if (options?.strict) {
-                checkTypes({ original: target[property], updated: value });
-            }
-
-            const proxy = proxify({ log, options })(deproxify(value));
-            const result = Reflect.set(target, property, proxy, receiver);
-
-            if (options?.secret)
-                logResult.special({ property, options, value, log });
-            else
-                logResult.regular({ property, value, log });
-
-            return result;
+            return handleUpdate({ log, options })({ target, property, value, receiver });
         },
         deleteProperty(target, property) {
             const options = target[property]?.[symbol]?.options;
@@ -145,7 +143,11 @@ const proxify = ({ log, options }) => input => {
         }
     });
 
-    proxy[symbol] = { revoke, options };
+    if (options) {
+        proxy[symbol] = { revoke, options };
+    } else {
+        // proxy[symbol] = { level: 0 };
+    }
 
     return proxy;
 }
