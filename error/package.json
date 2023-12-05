@@ -1,6 +1,6 @@
 {
   "name": "cyber-error",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Intuitive error handling with native support for rethrows and custom flags along with an extendable dictionary of common errors",
   "type": "module",
   "main": "lib/index.js",
