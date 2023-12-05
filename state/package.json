@@ -11,6 +11,9 @@
 	"scripts": {
 		"test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
 	},
+    "engines": {
+		"node": ">=14.0.0"
+	},
 	"dependencies": {
 		"@apify/log": "^2.4.2",
 		"unicode-escapes": "^1.0.0"
