@@ -1,7 +1,7 @@
 {
 	"name": "cyber-consts",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Reusable constants for general and web related development",
 	"main": "lib/index.js",
 	"files": [
