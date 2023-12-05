@@ -5,7 +5,7 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable lines-between-class-members */
 // const { CyberError: Error } = require('./error');
-import { CyberError } from './error';
+import { CyberError } from './error.js';
 
 const Error = CyberError;
 

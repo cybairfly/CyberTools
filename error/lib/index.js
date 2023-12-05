@@ -1,10 +1,10 @@
-import { CyberError } from './error';
-import { Errors } from './errors';
+import { CyberError } from './error.js';
+import { Errors } from './errors.js';
 
 const Error = CyberError;
 const errors = new Errors();
 
-module.exports = {
+export {
 	Error,
 	errors,
 };
