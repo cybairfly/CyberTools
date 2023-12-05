@@ -115,7 +115,7 @@ class CyberError extends global.Error {
 
 	#getName = (chain = [], child = this.constructor) => {
 		if (child.name === 'CyberError')
-			return chain.length ? `Cyber.Error.${chain.join('.')}` : 'Cyber.Error';
+			return chain.length ? `Error.${chain.join('.')}` : 'Error';
 
 		return this.#getName([child.name, ...chain], Object.getPrototypeOf(child));
 	};
@@ -136,4 +136,4 @@ class CyberError extends global.Error {
 	}
 }
 
-module.exports = {CyberError};
+export {CyberError};

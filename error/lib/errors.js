@@ -4,7 +4,10 @@
 
 /* eslint-disable max-classes-per-file */
 /* eslint-disable lines-between-class-members */
-const { CyberError: Error } = require('./error');
+// const { CyberError: Error } = require('./error');
+import { CyberError } from './error';
+
+const Error = CyberError;
 
 /**
  * Dictionary of custom errors for the robot
@@ -145,4 +148,4 @@ class Errors {
 	};
 }
 
-module.exports = {Errors};
+export {Errors};
