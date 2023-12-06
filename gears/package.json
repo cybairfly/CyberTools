@@ -1,17 +1,17 @@
 {
 	"name": "cyber-gears",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Minor cyber-tools for every-day cyber-use",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",
 		"README.md"
 	],
-    "scripts": {
+	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-    "engines": {
+	"engines": {
 		"node": ">=14.0.0"
 	},
 	"dependencies": {},
