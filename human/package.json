@@ -15,8 +15,7 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
-		"@apify/log": "^2.4.2",
-		"@types/puppeteer": "^7.0.4"
+		"@apify/log": "^2.4.2"
 	},
 	"repository": {
 		"type": "git",

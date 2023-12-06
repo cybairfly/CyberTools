@@ -1,5 +1,4 @@
 import {Log} from '@apify/log';
-// import {Page} from '@types/puppeteer';
 
 import {trackPointer, sleep} from './tools';
 
