@@ -1,40 +1,91 @@
-import {Log, LEVELS} from '@apify/log';
+import {Log, LEVELS, LEVEL_TO_STRING} from '@apify/log';
+import colors from 'ansi-colors';
+import {redact, redactCommon} from 'cyber-gears';
 
-// eslint-disable-next-line import/no-relative-packages
-import {redactCommon} from '../../gears/lib/index.js';
+import {LEVEL_TO_COLOR} from './consts.js';
+import {CustomLoggers, Reducers, extendDefaultLoggers, getLevels} from './tools.js';
 
-const {DEBUG, INFO, WARNING, ERROR} = LEVELS;
+const levels = getLevels(LEVEL_TO_STRING);
 
 class Logger extends Log {
-	info = (...args) => {
-		if (typeof args[args.length - 1] === 'object')
-			super.info(`${args.slice(0, -1).join(', ')}`, args[args.length - 1]);
-		else
-			super.info(`${args.join(' ')}`);
-	};
+	#redactor = redactCommon;
 
+	#reducers;
+
+	/**
+     * Logger extended with additional features for easier formatting and redacting of sensitive
+     * inputs. Provide custom redactor to customize redacting behavior. All logs are redacted to
+     * conceal common sensitive properties by default if no redactor is provided in options.
+     * @param {Partial<import('@apify/log').LoggerOptions> & { redactor: typeof redact | null }} options
+     */
+	constructor(options = {}) {
+		super(options);
+		this.#redactor = options.redactor === null ? null : this.#redactor;
+		this.#reducers = Reducers(this.#redactor);
+
+		const defaultReducer = this.#redactor ?
+			[this.#reducers.redact, this.#reducers.custom] :
+			[this.#reducers.custom];
+
+		const customDefaultLoggers = CustomLoggers(levels)(this, defaultReducer);
+		extendDefaultLoggers(levels)(this, customDefaultLoggers);
+
+		this.format = CustomLoggers(levels)(this, [this.#reducers.redact, this.#reducers.format]);
+
+		this.redact = {
+			...CustomLoggers(levels)(this, [this.#reducers.redact]),
+			format: CustomLoggers(levels)(this, [this.#reducers.redact, this.#reducers.format]),
+		};
+	}
+
+	child(options) {
+		let {prefix} = this.options;
+		if (options.prefix)
+			prefix = prefix ? `${prefix}: ${options.prefix}` : options.prefix;
+
+		const data = options.data ? {...this.options.data, ...options.data} : this.options.data;
+		const newOptions = {
+			...this.options,
+			...options,
+			prefix,
+			data,
+		};
+
+		return new Logger(newOptions);
+	}
+
+	/**
+     * Bypass logger but respect levels and namespaces
+     * @returns {Partial<Logger>}
+     */
 	bypass = {
-		info: (...args) => [DEBUG, INFO].includes(this.getLevel()) && console.log('INFO', ...args),
-		debug: (...args) => this.getLevel() === DEBUG && console.log('DEBUG', ...args),
-		error: (...args) => [DEBUG, INFO, WARNING, ERROR].includes(this.getLevel()) && console.error('ERROR', ...args),
-		warning: (...args) => [DEBUG, INFO, WARNING].includes(this.getLevel()) && console.warn('WARNING', ...args),
+		info: (...args) => this.getLevel() >= LEVELS.INFO && (console.log(`${colors[LEVEL_TO_COLOR[LEVELS.INFO]]('INFO ')} ${colors.yellow(this.options.prefix)}:`, ...args)),
+		debug: (...args) => this.getLevel() >= LEVELS.DEBUG && (console.debug(`${colors[LEVEL_TO_COLOR[LEVELS.DEBUG]]('DEBUG')} ${colors.yellow(this.options.prefix)}:`, ...args)),
+		error: (...args) => this.getLevel() >= LEVELS.ERROR && (console.error(`${colors[LEVEL_TO_COLOR[LEVELS.ERROR]]('ERROR')} ${colors.yellow(this.options.prefix)}:`, ...args)),
+		warning: (...args) => this.getLevel() >= LEVELS.WARNING && (console.warn(`${colors[LEVEL_TO_COLOR[LEVELS.WARNING]]('WARN ')} ${colors.yellow(this.options.prefix)}:`, ...args)),
 	};
 
-	string = {
-		info: (...args) => this.info(`${args.join(' ')}`),
-		debug: (...args) => this.debug(`${args.join(' ')}`),
-		error: (...args) => this.error(`${args.join(' ')}`),
-		warning: (...args) => this.warning(`${args.join(' ')}`),
-	};
+	// object = {
+	// 	info: object => this.bypass.info(object),
+	// 	debug: object => this.bypass.debug(object),
+	// 	error: object => this.bypass.error(object),
+	// 	warning: object => this.bypass.warning(object),
+	// };
 
-	object = {
-		info: object => this.info(`${JSON.stringify(object, null, 4)}`),
-		debug: object => this.debug(`${JSON.stringify(object, null, 4)}`),
-		error: object => this.error(`${JSON.stringify(object, null, 4)}`),
-		warning: object => this.warning(`${JSON.stringify(object, null, 4)}`),
-	};
+	/**
+     * Multi-line stringified format for structured inputs
+     * @type {Partial<Logger>}
+     */
+	format = {};
 
-	redact = (...args) => console.log(...args.map(arg => redactCommon(arg)));
+	/**
+     * Redact sensitive values by key in all objects to arbitrary depth by default including deep
+     * arrays. Provide custom redactor to constrain the scope and customize the redacting behavior.
+     * @type {Partial<Logger> & {format: Partial<Logger>}}
+     */
+	redact = {
+		format: {},
+	};
 }
 
 export {Logger};
