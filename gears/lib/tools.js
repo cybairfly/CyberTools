@@ -1,6 +1,6 @@
 import {isObject} from './gears.js';
 
-const redactEngine = input => props => {
+const redactEngine = props => input => {
 	const recurseRedact = ({input, props}) => ({match = false}) => {
 		if (Array.isArray(input))
 			return input.map(item => recurseRedact({input: item, props})({match: match || false}));
@@ -18,7 +18,7 @@ const redactEngine = input => props => {
 				.entries(input)
 				.map(([key, value]) => [
 					key,
-					recurseRedact({input: value, props})({match: match || (props && props?.includes(key))}),
+					recurseRedact({input: value, props})({match: match || (props?.includes(key) ?? true)}),
 				]));
 	};
 

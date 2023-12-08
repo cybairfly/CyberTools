@@ -5,10 +5,15 @@ import {redactEngine} from './tools.js';
  * @param {any} input
  * @param {Array<string>} props List of specific properties to redact. All properties are redacted if not provided.
  */
-const redact = (input, props) => redactEngine(input)(props);
+const redact = props => input => redactEngine(props)(input);
 
-const redactCommon = input => redact(input, [
+const redactCommon = redact([
+	'e-mail',
+	'email',
 	'token',
+	'redact',
+	'secret',
+	'username',
 	'password',
 	'proxyUrl',
 	'proxyUrls',
