@@ -1,4 +1,4 @@
-import { sleep, isObject } from './gears.js';
+import { sleep, isObject } from './basic.js';
 import { redact, redactCommon } from './object.js';
 
 export {

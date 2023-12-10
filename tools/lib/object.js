@@ -1,4 +1,4 @@
-import {redactEngine} from './tools.js';
+import {redactEngine} from './gears/index.js';
 
 /**
  * Deeply redacts potentially sensitive input. Works with objects and arrays of arbitrary depth.

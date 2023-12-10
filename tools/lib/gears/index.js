@@ -1,4 +1,4 @@
-import {isObject} from './gears.js';
+import {isObject} from '../basic.js';
 
 const redactEngine = props => input => {
 	const recurseRedact = ({input, props}) => ({match = false}) => {

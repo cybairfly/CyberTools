@@ -1,8 +1,8 @@
 {
-	"name": "cyber-gears",
+	"name": "cyber-tools",
 	"type": "module",
 	"version": "0.0.3",
-	"description": "Minor cyber-tools for every-day cyber-use",
+	"description": "Minor cyber-tools for common cyber-needs",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",
@@ -17,7 +17,7 @@
 	"dependencies": {},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/cybaerfly/cyber-gears"
+		"url": "https://gitlab.com/cybaerfly/cyber-tools"
 	},
 	"author": {
 		"name": "Vasek Codey Vlcek",
