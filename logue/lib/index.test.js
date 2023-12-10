@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
 
-import { Logger } from '.';
+import { Logue } from '.';
 
-const log = new Logger().child({prefix: 'Robot'}).child({prefix: 'Human'});
+const log = new Logue().child({prefix: 'Robot'}).child({prefix: 'Human'});
 log.setLevel(log.LEVELS.PERF);
 
 const inputs = {
@@ -172,7 +172,7 @@ test('format', () => {
 });
 
 test('custom', () => {
-	const log = new Logger({redactor: null}).child({prefix: 'Robot'}).child({prefix: 'Human'});
+	const log = new Logue({redactor: null}).child({prefix: 'Robot'}).child({prefix: 'Human'});
 
 	Object.values(inputs).forEach(value => log.redact.format.info(value));
 	Object.values(inputs).forEach(value => log.redact.format.debug(value));

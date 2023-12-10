@@ -1,4 +1,4 @@
-# Cyber/Logger
+# Cyber/Logue
 
 > Extended log instance for advanced use of @apify/log
 

@@ -1,13 +1,13 @@
 import {Log, LEVELS, LEVEL_TO_STRING} from '@apify/log';
 import colors from 'ansi-colors';
-import {redact, redactCommon} from 'cyber-gears';
+import {redact, redactCommon} from 'cyber-tools';
 
 import {LEVEL_TO_COLOR} from './consts.js';
 import {CustomLoggers, Reducers, extendDefaultLoggers, getLevels} from './tools.js';
 
 const levels = getLevels(LEVEL_TO_STRING);
 
-class Logger extends Log {
+class Logue extends Log {
 	#redactor = redactCommon;
 
 	#reducers;
@@ -51,12 +51,12 @@ class Logger extends Log {
 			data,
 		};
 
-		return new Logger(newOptions);
+		return new Logue(newOptions);
 	}
 
 	/**
      * Bypass logger but respect levels and namespaces
-     * @returns {Partial<Logger>}
+     * @returns {Partial<Logue>}
      */
 	bypass = {
 		info: (...args) => this.getLevel() >= LEVELS.INFO && (console.log(`${colors[LEVEL_TO_COLOR[LEVELS.INFO]]('INFO ')} ${colors.yellow(this.options.prefix)}:`, ...args)),
@@ -74,18 +74,18 @@ class Logger extends Log {
 
 	/**
      * Multi-line stringified format for structured inputs
-     * @type {Partial<Logger>}
+     * @type {Partial<Logue>}
      */
 	format = {};
 
 	/**
      * Redact sensitive values by key in all objects to arbitrary depth by default including deep
      * arrays. Provide custom redactor to constrain the scope and customize the redacting behavior.
-     * @type {Partial<Logger> & {format: Partial<Logger>}}
+     * @type {Partial<Logue> & {format: Partial<Logue>}}
      */
 	redact = {
 		format: {},
 	};
 }
 
-export {Logger};
+export {Logue};
