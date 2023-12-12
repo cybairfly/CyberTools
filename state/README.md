@@ -1,7 +1,7 @@
 # Cyber/State
 > Minimal library for centralized state management and automated state change logging and debugging.
 
-Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)
 
 ## Installation
 ```

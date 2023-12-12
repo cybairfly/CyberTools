@@ -1,7 +1,7 @@
 # Cyber/Error
 > Intuitive error handling with native support for rethrows and custom flags along with an extendable dictionary of common errors
 
-Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)
 
 ## Introduction
 Custom error handling with native support for rethrows and specific flags affecting consequent behavior of the framework along with an extendable dictionary of common errors helps cover any scenarios, expected or unexpected.

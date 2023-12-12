@@ -2,7 +2,7 @@
 
 > Humanized toolset for automated simulation of human behavior in browsers as a means of avoiding bot detection.
 
-Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)
 
 ## Features
 

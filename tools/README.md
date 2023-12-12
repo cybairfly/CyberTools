@@ -2,4 +2,4 @@
 
 > Minor cyber-tools for every-day cyber-use
 
-Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)

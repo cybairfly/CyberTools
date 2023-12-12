@@ -1,8 +1,8 @@
 {
-  "name": "cyber-tools",
+  "name": "cyber-codex",
   "type": "module",
   "version": "0.0.1",
-  "description": "Collection of tools for software automation and general software development.",
+  "description": "Collection of tools for coding and software automation",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

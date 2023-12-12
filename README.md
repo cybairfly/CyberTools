@@ -1,11 +1,14 @@
-# CyberTools
+# CyberCodex
 
-Collection of tools for software automation and coding in general.
+Collection of tools for coding and software automation.
 
 ## Collection
 **Cyber**
+- [Consts](#consts) - 
 - [Error](#error) - 
-- [Login](#login) - 
 - [Human](#human) - 
+- [Login](#login) - 
+- [Logue](#logue) - 
 - [Server](#server) - 
 - [State](#state) - 
+- [Tools](#tools) - 

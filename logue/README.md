@@ -2,6 +2,6 @@
 
 > Extended log instance for advanced use of @apify/log
 
-Member of: [**CyberTools**](https://www.npmjs.com/package/cyber-tools)
+Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)
 
 ## Features
