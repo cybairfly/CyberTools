@@ -39,14 +39,13 @@ await human.press('Enter').catch(() => human.click('#submit'));
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.com/cybaerfly/apify-human/-/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.com/cybairfly/apify-human/-/tags). 
 
 ## Authors
 
 - Vasek Codey Vlcek - maintainer
-- Milán Vasárhelyi - documentation
 
-List of [contributors](https://gitlab.com/cybaerfly/apify-human/-/graphs/master) participating in this project.
+List of [contributors](https://gitlab.com/cybairfly/apify-human/-/graphs/master) participating in this project.
 
 ## License
 

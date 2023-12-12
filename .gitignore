@@ -1,3 +1,5 @@
+state/
+
 *.pem
 .env
 .actor
