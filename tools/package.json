@@ -2,7 +2,7 @@
 	"name": "cyber-tools",
 	"type": "module",
 	"version": "0.0.1",
-	"description": "Minor cyber-tools for common cyber-needs",
+	"description": "Collection of minor tools for common cyber-needs",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",

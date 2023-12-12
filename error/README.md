@@ -1,12 +1,12 @@
 # Cyber/Error
-> Intuitive error handling with native support for rethrows and custom flags along with an extendable dictionary of common errors
+> Intuitive and powerful error handling with native support for rethrows and custom flags. Comes with an extendable dictionary of common errors.
 
 Member of: [**CyberCodex**](https://www.npmjs.com/package/cyber-codex)
 
 ## Introduction
 Custom error handling with native support for rethrows and specific flags affecting consequent behavior of the framework along with an extendable dictionary of common errors helps cover any scenarios, expected or unexpected.
 
-Comes with an extendable dictionary of default errors for common use cases: [**Error Dictionary**](/error/lib/errors.js)
+Comes with an extendable dictionary of default errors for common use cases: [**Dictionary**](/error/lib/errors.js)
 
 Examples:
 - `Robot.errors.Network` - throw, print and report a generic network error

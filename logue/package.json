@@ -2,7 +2,7 @@
 	"name": "cyber-logue",
 	"type": "module",
 	"version": "0.0.1",
-	"description": "Extended logger for advanced use of @apify/log",
+	"description": "Extended instance for advanced use of Apify Logger",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",
