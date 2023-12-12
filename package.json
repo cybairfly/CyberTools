@@ -1,7 +1,7 @@
 {
     "name": "cyber-codex",
     "type": "module",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Collection of tools for coding and software automation",
     "main": "index.js",
     "engines": {
@@ -24,12 +24,12 @@
         "typescript": "^5.3.2"
     },
     "repository": {
-		"type": "git",
-		"url": "git+https://github.com/cybairfly/CyberCodex.git"
-	},
-	"author": {
-		"name": "Vasek Codey Vlcek",
-		"email": "cyberfly@email.cz",
-		"url": "https://github.com/cybairfly"
-	}
+        "type": "git",
+        "url": "git+https://github.com/cybairfly/CyberCodex.git"
+    },
+    "author": {
+        "name": "Vasek Codey Vlcek",
+        "email": "cyberfly@email.cz",
+        "url": "https://github.com/cybairfly"
+    }
 }
