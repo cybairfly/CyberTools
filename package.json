@@ -4,6 +4,9 @@
     "version": "0.0.0",
     "description": "Collection of tools for coding and software automation",
     "main": "index.js",
+    "engines": {
+		"node": ">=14.0.0"
+	},
     "keywords": [
         "RPA",
         "login",
