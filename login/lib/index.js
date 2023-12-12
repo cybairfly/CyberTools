@@ -1,4 +1,4 @@
-import { TIMEOUTS } from './consts';
+import { TIMEOUTS } from 'cyber-consts';
 
 /**
  * Attempts login with provided details and inputs.
@@ -12,12 +12,11 @@ import { TIMEOUTS } from './consts';
  * @param {String} options.selectors.password
  * @param {String} [options.selectors.submit]
  * @param {String} [options.selectors.verify]
- * @param {Object} options.credentials
- * @param {String} options.credentials.username
- * @param {String} options.credentials.password
+ * @param {String} options.username
+ * @param {String} options.password
  * @returns {Promise<any[]>} Returns an array with all promises of performed actions and the login response at first index
  */
-export const login = async ({page, timeout, predicate, selectors, credentials: {username, password}}) => {
+export const login = async ({page, timeout, predicate, selectors, username, password}) => {
 	if (!predicate || !selectors.verify)
 		throw Error('Login input missing predicate or selector for login status verification');
 

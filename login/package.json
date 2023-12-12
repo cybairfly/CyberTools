@@ -8,13 +8,15 @@
 		"/lib",
 		"README.md"
 	],
-    "scripts": {
+	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-    "engines": {
+	"engines": {
 		"node": ">=14.0.0"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"cyber-consts": "^0.0.3"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://gitlab.com/cybaerfly/cyber-login"
