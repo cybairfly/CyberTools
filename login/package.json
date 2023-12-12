@@ -2,7 +2,7 @@
 	"name": "cyber-login",
 	"type": "module",
 	"version": "0.0.1",
-	"description": "Login tools for handling authentication",
+	"description": "Login tools for automated handling of authentication",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",

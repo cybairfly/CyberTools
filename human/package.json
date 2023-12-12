@@ -2,7 +2,7 @@
 	"name": "cyber-human",
 	"type": "module",
 	"version": "0.0.2",
-	"description": "Utility library for simulation of human behavior in web browser using lower level automation libraries (Playwright & Puppeteer)",
+	"description": "Automated simulation of human behavior in web browser",
 	"main": "lib/index.js",
 	"files": [
 		"/lib",
