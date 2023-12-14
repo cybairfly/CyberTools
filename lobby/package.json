@@ -15,7 +15,7 @@
 		"node": ">=14.0.0"
 	},
     "dependencies": {
-		"cyber-consts": "file:../consts"
+		"cyber-consts": "latest"
 	},
 	"repository": {
 		"type": "git",
