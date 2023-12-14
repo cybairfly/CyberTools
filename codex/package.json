@@ -17,12 +17,12 @@
         "simulation"
     ],
     "dependencies": {
-        "cyber-consts": "file:../consts",
-        "cyber-error": "file:../error",
-        "cyber-human": "file:../human",
-        "cyber-login": "file:../login",
-        "cyber-logue": "file:../logue",
-        "cyber-tools": "file:../tools"
+        "cyber-consts": "latest",
+        "cyber-error": "latest",
+        "cyber-human": "latest",
+        "cyber-login": "latest",
+        "cyber-logue": "latest",
+        "cyber-tools": "latest"
     },
     "devDependencies": {
         "@apify/eslint-config": "^0.4.0",
