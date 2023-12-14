@@ -20,7 +20,7 @@
         "cyber-consts": "file:../consts",
         "cyber-error": "file:../error",
         "cyber-human": "file:../human",
-        "cyber-login": "file:../login",
+        "cyber-lobby": "file:../lobby",
         "cyber-logue": "file:../logue",
         "cyber-tools": "file:../tools"
     },
