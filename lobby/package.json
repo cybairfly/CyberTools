@@ -1,5 +1,5 @@
 {
-	"name": "cyber-login",
+	"name": "cyber-lobby",
 	"type": "module",
 	"version": "0.0.1",
 	"description": "Login tools for automated handling of authentication",
@@ -19,7 +19,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/cybairfly/cyber-login"
+		"url": "https://gitlab.com/cybairfly/cyber-lobby"
 	},
 	"author": {
 		"name": "Vasek Codey Vlcek",

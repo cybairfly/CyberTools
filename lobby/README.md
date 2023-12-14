@@ -1,4 +1,4 @@
-# Cyber/Login
+# Cyber/Lobby
 
 > Login tools for handling authentication
 
