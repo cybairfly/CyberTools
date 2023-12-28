@@ -1,0 +1,34 @@
+{
+	"name": "cyber-comms",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Collection of notification integrations with third party services",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+	"scripts": {
+		"test": "vitest"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"dependencies": {
+		"apify": "^3.1.14",
+		"cyber-logue": "file:../logue",
+		"got": "^14.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/cybairfly/cyber-comms"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	},
+	"devDependencies": {
+		"vitest": "^1.1.3"
+	}
+}
