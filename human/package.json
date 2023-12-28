@@ -15,7 +15,7 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
-		"cyber-logue": "latest"
+		"cyber-logue": "file:../logue"
 	},
 	"repository": {
 		"type": "git",
