@@ -1,4 +1,4 @@
-import { TIMEOUTS } from 'cyber-consts';
+import {TIMEOUTS} from 'cyber-consts';
 
 /**
  * Attempts login with provided details and inputs.
@@ -17,11 +17,18 @@ import { TIMEOUTS } from 'cyber-consts';
  * @returns {Promise<any[]>} Returns an array with all promises of performed actions and the login response at first index
  */
 export const login = async ({page, timeout, predicate, selectors, username, password}) => {
-	if (!predicate || !selectors.verify)
+	if (!predicate && !selectors.verify)
 		throw Error('Login input missing predicate or selector for login status verification');
 
-	await page.waitForSelector(selectors.password);
+	await page.waitForSelector(selectors.username);
 	await page.type(selectors.username, username);
+	await page.waitForSelector(selectors.password, {timeout: 3 * 1000})
+		.catch(async error => {
+			console.log('Password field not found. Trying to submit username.');
+			await page.keyboard.press('Enter');
+			await page.waitForSelector(selectors.password);
+		});
+
 	await page.type(selectors.password, password);
 	const promises = [];
 
