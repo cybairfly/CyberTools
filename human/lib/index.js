@@ -1,8 +1,8 @@
-import {Log} from '@apify/log';
+import {Logue} from 'cyber-logue';
 
 import {trackPointer, sleep} from './tools';
 
-const log = new Log().child({prefix: 'Human'});
+const log = new Logue().child({prefix: 'Human'});
 
 /**
  * Enables manual or automated simulation of human behavior in Playwright or Puppeteer {@link Page}.

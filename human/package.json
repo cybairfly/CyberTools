@@ -15,7 +15,7 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
-		"@apify/log": "^2.4.2"
+		"cyber-logue": "file:../logue"
 	},
 	"repository": {
 		"type": "git",
