@@ -14,7 +14,9 @@
 	"engines": {
 		"node": ">=14.0.0"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"dot-object": "^2.1.4"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://gitlab.com/cybairfly/cyber-tools"

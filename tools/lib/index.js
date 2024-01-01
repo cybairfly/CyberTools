@@ -1,9 +1,8 @@
-import { sleep, isObject } from './basic.js';
-import { redact, redactCommon } from './object.js';
+import dot from 'dot-object';
+
+export * from './basic.js';
+export * from './object.js';
 
 export {
-	sleep,
-	isObject,
-	redact,
-	redactCommon,
+	dot,
 };
