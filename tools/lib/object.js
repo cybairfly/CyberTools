@@ -1,3 +1,6 @@
+import dot from 'dot-object';
+
+import {isObject} from './basic.js';
 import {redactEngine} from './gears/index.js';
 
 /**
@@ -11,6 +14,7 @@ const redactCommon = redact([
 	'e-mail',
 	'email',
 	'token',
+	'bearer',
 	'redact',
 	'secret',
 	'username',
@@ -19,7 +23,20 @@ const redactCommon = redact([
 	'proxyUrls',
 ]);
 
+const parseInputSchema = input =>
+	dot.object(Object
+		.fromEntries(Object
+			.entries(input)
+			.map(([key, value]) =>
+				[
+					key,
+					isObject(value) ?
+						parseInputSchema(value) :
+						value,
+				])));
+
 export {
 	redact,
 	redactCommon,
+	parseInputSchema,
 };
