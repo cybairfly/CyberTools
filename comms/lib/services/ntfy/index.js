@@ -4,6 +4,11 @@ import got from 'got';
 import {Service} from '../index.js';
 
 export class Ntfy extends Service {
+	constructor({channel = null}) {
+		super();
+		this.channel = channel;
+	}
+
 	dispatch = async request => {
 		const response = await got(request);
 	};
@@ -14,7 +19,7 @@ export class Ntfy extends Service {
 
 	Message = ({message, channel, options: {title, priority, tags}}) => ({
 		method: 'POST',
-		url: `http://ntfy.sh/${channel}`,
+		url: `http://ntfy.sh/${this.channel || channel}`,
 		headers: {
 			title,
 			tags,
