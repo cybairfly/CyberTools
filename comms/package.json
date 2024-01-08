@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"apify": "^3.1.14",
-		"cyber-logue": "file:../logue",
+		"cyber-logue": "latest",
 		"got": "^14.0.0"
 	},
 	"repository": {
