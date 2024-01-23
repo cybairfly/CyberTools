@@ -4,6 +4,10 @@ import got from 'got';
 import {Service} from '../index.js';
 
 export class Ntfy extends Service {
+	/**
+	 *
+	 * @param {channel: null | string} param0
+	 */
 	constructor({channel = null}) {
 		super();
 		this.channel = channel;

@@ -3,11 +3,6 @@ import {Mail} from './services/mail/index.js';
 import {Mock} from './services/mock/index.js';
 import {Ntfy} from './services/ntfy/index.js';
 
-const defaultServices = [
-	Mock,
-	Ntfy,
-];
-
 class Comms {
 	#services;
 
@@ -17,7 +12,11 @@ class Comms {
 		Ntfy,
 	};
 
-	constructor(services = defaultServices) {
+	/**
+	 *
+	 * @param {Array<Object>} services
+	 */
+	constructor(services = [Mock]) {
 		this.log = log;
 		this.#services = services.map(ServiceOrInstance => typeof ServiceOrInstance === 'function' ? new ServiceOrInstance(this.log) : ServiceOrInstance);
 	}
