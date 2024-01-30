@@ -1,7 +1,7 @@
 {
 	"name": "cyber-human",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Automated simulation of human behavior in web browser",
 	"main": "lib/index.js",
 	"files": [
