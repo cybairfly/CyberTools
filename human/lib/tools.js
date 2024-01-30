@@ -8,8 +8,9 @@
 const sleep = ms => new Promise(ok => setTimeout(ok, ms));
 
 async function trackPointer(page) {
+	const method = page.addInitScript._original || page.addInitScript;
 	try {
-		page.addInitScript(pointerTracker);
+		method(pointerTracker);
 	} catch (error) {
 		page.evaluateOnNewDocument(pointerTracker).catch(error => {
 			console.log('Failed to inject pointer tracker');

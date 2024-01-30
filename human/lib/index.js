@@ -1,6 +1,6 @@
 import {Logue} from 'cyber-logue';
 
-import {trackPointer, sleep} from './tools';
+import {trackPointer, sleep} from './tools.js';
 
 const log = new Logue().child({prefix: 'Human'});
 
@@ -82,8 +82,9 @@ class Human {
      */
 	type = async (selector, text, options) => {
 		const characters = text.split('');
+		const typeMethod = this.#originalInstance.type.original || this.#originalInstance.type;
 		for (const character of characters)
-			await this.#originalInstance.type(selector, character, {...options, delay: Math.random() * 250});
+			await typeMethod(selector, character, {...options, delay: Math.random() * 250});
 	};
 
 	/**
