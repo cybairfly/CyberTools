@@ -21,7 +21,7 @@ export const login = async ({page, timeout, predicate, selectors, username, pass
 		throw Error('Login input missing predicate or selector for login status verification');
 
 	await page.waitForSelector(selectors.username);
-	await page.type(selectors.username, username);
+	await page.fill(selectors.username, username);
 	await page.waitForSelector(selectors.password, {timeout: 3 * 1000})
 		.catch(async error => {
 			console.log('Password field not found. Trying to submit username.');
@@ -29,7 +29,7 @@ export const login = async ({page, timeout, predicate, selectors, username, pass
 			await page.waitForSelector(selectors.password);
 		});
 
-	await page.type(selectors.password, password);
+	await page.fill(selectors.password, password);
 	const promises = [];
 
 	if (predicate) {
