@@ -25,7 +25,7 @@ export class Ntfy extends Service {
 		method: 'POST',
 		url: `http://ntfy.sh/${this.channel || channel}`,
 		headers: {
-			title,
+			title: title?.replace(/\W/g, '-'),
 			tags,
 			priority,
 		},
