@@ -18,6 +18,7 @@
     ],
     "dependencies": {
         "cyber-consts": "file:../consts",
+        "cyber-comms": "file:../comms",
         "cyber-error": "file:../error",
         "cyber-human": "file:../human",
         "cyber-lobby": "file:../lobby",
