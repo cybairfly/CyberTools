@@ -1,5 +1,6 @@
 {
     "name": "cyber-codex-monorepo",
+	"type": "module",
     "description": "Monorepo for installation from repository, development purposes only. Install the codex package or individual published packages for production.",
     "dependencies": {
         "cyber-consts": "file:./consts",
