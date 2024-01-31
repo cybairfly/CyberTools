@@ -73,9 +73,9 @@ class Human {
 
 		if (this.#page && this.#move)
 			this.startMotion();
-	}
 
-	fill = this.type;
+		this.fill = this.type;
+	}
 
 	/**
      * Human-like typing simulation using random delay between characters.
