@@ -5,6 +5,7 @@ import {TIMEOUTS} from 'cyber-consts';
  * Either `predicate` or `selectors.verify` is mandatory to check the login result.
  * @param {Object} options
  * @param {Object} options.page
+ * @param {Object} [options.human]
  * @param {Number} [options.timeout = 10 * 1000]
  * @param {Function} [options.predicate]
  * @param {Object} options.selectors
