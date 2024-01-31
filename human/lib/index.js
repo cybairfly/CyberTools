@@ -41,9 +41,9 @@ class Human {
 	/**
      *
      * @param {object} instance Playwright or Puppeteer page or frame
-     * @param {object} options Options setting behavior of the human
-     * @param {boolean} options.debug Enable visual pointer tracker
-     * @param {boolean} options.motion Enable automated pointer motion
+     * @param {object} [options] Options setting behavior of the human
+     * @param {boolean} [options.debug] Enable visual pointer tracker
+     * @param {boolean} [options.motion] Enable continuous pointer motion
      */
 	constructor(instance, options = {}) {
 		this.#originalInstance = instance;
