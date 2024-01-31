@@ -19,7 +19,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/cybairfly/cyber-lobby"
+		"url": "git+https://github.com/cybairfly/CyberCodex.git"
 	},
 	"author": {
 		"name": "Vasek Codey Vlcek",

@@ -21,7 +21,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/cybairfly/cyber-comms"
+		"url": "git+https://github.com/cybairfly/CyberCodex.git"
 	},
 	"author": {
 		"name": "Vasek Codey Vlcek",
