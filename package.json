@@ -1,6 +1,7 @@
 {
     "name": "cyber-codex-monorepo",
 	"type": "module",
+    "main": "index.js",
     "description": "Monorepo for installation from repository, development purposes only. Install the codex package or individual published packages for production.",
     "dependencies": {
         "cyber-consts": "file:./consts",
