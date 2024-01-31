@@ -75,6 +75,8 @@ class Human {
 			this.startMotion();
 	}
 
+	fill = this.type;
+
 	/**
      * Human-like typing simulation using random delay between characters.
      * Humanized version of {@link Page}.type.
