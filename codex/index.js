@@ -1,3 +1,4 @@
+import { Comms, comms } from 'cyber-comms';
 import * as consts from 'cyber-consts';
 import { Error, errors } from 'cyber-error';
 import { Human } from 'cyber-human';
@@ -10,10 +11,15 @@ import * as tools from 'cyber-tools';
 export {
 	// State,
 	// Server,
+	Comms,
+	comms,
+
 	Error,
+	errors,
+
 	Human,
 	Logue,
-	errors,
+
 	login,
 	tools,
 	consts,
