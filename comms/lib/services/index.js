@@ -12,9 +12,13 @@ export class Service {
 			options,
 		});
 
-		this.validate(request);
-		this.dispatch(request);
-		this.log.info(request);
+		const actions = {
+			validate: this.validate(request),
+			dispatch: this.dispatch(request),
+			log: this.log.info(request),
+		};
+
+		return actions.dispatch;
 	};
 
 	#throw() {

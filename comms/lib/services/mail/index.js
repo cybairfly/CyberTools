@@ -17,7 +17,7 @@ export class Mail extends Service {
 			text: request.message,
 		};
 
-		await Actor.call('apify/send-mail', options);
+		return Actor.call('apify/send-mail', options);
 	};
 
 	validate = request => {

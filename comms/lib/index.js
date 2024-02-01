@@ -1,4 +1,4 @@
-import { log } from './logger.js';
+import {log} from './logger.js';
 import {Mail} from './services/mail/index.js';
 import {Mock} from './services/mock/index.js';
 import {Ntfy} from './services/ntfy/index.js';
@@ -27,10 +27,10 @@ class Comms {
 
 	send = async ({service, message, channel, options}) => service.send({message, channel, options});
 
-	cast = async ({message, channel, options}) =>
-		this.services
+	cast = async ({message, channel, options}) => Promise
+		.all(this.services
 			.map(service =>
-				this.send({service, message, channel, options}));
+				this.send({service, message, channel, options})));
 }
 
 const comms = new Comms();
