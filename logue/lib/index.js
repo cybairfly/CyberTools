@@ -74,14 +74,14 @@ class Logue extends Log {
 
 	/**
      * Multi-line stringified format for structured inputs
-     * @type {Partial<Logue>}
+     * @type {Logue}
      */
 	format = {};
 
 	/**
      * Redact sensitive values by key in all objects to arbitrary depth by default including deep
      * arrays. Provide custom redactor to constrain the scope and customize the redacting behavior.
-     * @type {Partial<Logue> & {format: Partial<Logue>}}
+     * @type {Logue & {format: Logue}}
      */
 	redact = {
 		format: {},
