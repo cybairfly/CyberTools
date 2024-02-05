@@ -1,12 +1,7 @@
-import {
-	Human,
-	Comms,
-	Error,
-	login,
-	tools,
-} from 'cyber-codex';
+import {Comms} from 'cyber-comms';
+import {Error} from 'cyber-error';
 
-const {isObject} = tools;
+import {isObject} from '../../basic.js';
 
 /**
  *

@@ -1,4 +1,5 @@
-import {tools} from 'cyber-codex';
+import {Logue} from 'cyber-logue';
+import dot from 'dot-object';
 
 import {
 	excludeRecords,
@@ -6,9 +7,7 @@ import {
 	getMessage,
 	notify,
 } from './tools.js';
-import {log} from '../logger.js';
-
-const {dot, sleep} = tools;
+import {sleep} from '../../basic.js';
 
 export class Watcher {
 	/** @type {types.page | undefined} */
@@ -20,6 +19,7 @@ export class Watcher {
 	 */
 	constructor({input, datasets, records}) {
 		this.state = {input, datasets, records};
+		this.log = new Logue().child({prefix: this.name});
 	}
 
 	get page() {

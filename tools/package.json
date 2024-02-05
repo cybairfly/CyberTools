@@ -15,6 +15,9 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
+		"cyber-comms": "file:../comms",
+		"cyber-error": "file:../error",
+		"cyber-logue": "file:../logue",
 		"dot-object": "^2.1.4"
 	},
 	"repository": {
