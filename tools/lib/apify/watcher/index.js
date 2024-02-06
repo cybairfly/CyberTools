@@ -70,7 +70,7 @@ export class Watcher {
 	alert = async (outputs, {input} = this.state) => {
 		const title = this.page ? await this.page.title() : input.dataset;
 		if (!input.alerts.enable)
-			log.warning('Alerts are disabled in options. Notifications will not be dispatched.');
+			this.log.warning('Alerts are disabled in options. Notifications will not be dispatched.');
 		else {
 			await notify({
 				// items: outputs.map(output => process.env.isPremium ? getMessage(output) : insertPromo(getMessage(output))),
