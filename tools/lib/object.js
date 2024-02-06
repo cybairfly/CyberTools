@@ -17,7 +17,6 @@ const redactCommon = redact([
 	'bearer',
 	'redact',
 	'secret',
-	'username',
 	'password',
 	'proxyUrl',
 	'proxyUrls',
