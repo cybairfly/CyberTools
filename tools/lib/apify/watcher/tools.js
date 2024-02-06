@@ -1,7 +1,35 @@
+import {Script} from 'vm';
+
 import {Comms} from 'cyber-comms';
 import {Error} from 'cyber-error';
 
 import {isObject} from '../../basic.js';
+
+export const parsers = {
+	/**
+	 *
+	 * @param {string} string
+	 */
+	filters: string => {
+		const script = new Script(string);
+		const parsed = script.runInThisContext();
+		const result = Array.isArray(parsed) ? parsed : [parsed];
+
+		return result.filter(filter => typeof filter === 'function');
+	},
+
+	/**
+	 *
+	 * @param {types.actorInput} input
+	 */
+	scrapers: input => {
+		const script = new Script(input.scrapers || '');
+		const parsed = script.runInThisContext();
+
+		if (typeof parsed === 'function')
+			return parsed(input);
+	},
+};
 
 /**
  *
@@ -56,6 +84,9 @@ const keywordFilter = keywords => update => keywords.some(keyword => JSON.string
  * @param {{updates: Array<Object>, input: types.input}} param0
  */
 export const filterUpdates = ({updates, input: {filters, keywords}}) => {
+	if (typeof filters === 'string')
+		filters = parsers.filters(filters);
+
 	const filter = (filters?.length && iterateFilters(filters)) || (keywords?.length && keywordFilter(keywords));
 
 	return filter ?

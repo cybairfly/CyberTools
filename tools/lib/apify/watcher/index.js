@@ -36,7 +36,7 @@ export class Watcher {
 	 */
 	probe = async (results, {input, records} = this.state) => {
 		const updates = results.map(result => dot.object(result)).filter(excludeRecords(records));
-		const outputs = input.filters.length || input.keywords ? filterUpdates({updates, input}) : updates;
+		const outputs = input.filters || input.keywords ? filterUpdates({updates, input}) : updates;
 
 		if (outputs.length) {
 			await this.store(outputs);
