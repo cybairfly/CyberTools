@@ -14,8 +14,9 @@
 	"engines": {
 		"node": ">=14.0.0"
 	},
-    "dependencies": {
-		"cyber-consts": "file:../consts"
+	"dependencies": {
+		"cyber-consts": "file:../consts",
+		"cyber-tools": "file:../tools"
 	},
 	"repository": {
 		"type": "git",

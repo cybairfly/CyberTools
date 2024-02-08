@@ -1,4 +1,5 @@
 import {TIMEOUTS} from 'cyber-consts';
+import {sleep} from 'cyber-tools';
 
 /**
  * Attempts login with provided details and inputs.
@@ -32,6 +33,7 @@ export const login = async ({page, human, timeout, predicate, selectors, usernam
 		});
 
 	await actor.fill(selectors.password, password);
+	await sleep(timeout / 10);
 	const promises = [];
 
 	if (predicate) {
