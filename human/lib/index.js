@@ -86,7 +86,7 @@ class Human {
 		const characters = text.split('');
 		const typeMethod = this.#originalInstance.type._original || this.#originalInstance.type;
 		for (const character of characters)
-			await typeMethod.call(this.#page, selector, character, {...options, delay: Math.random() * 250});
+			await typeMethod.call(this.#page, selector, character, {...options, delay: Math.random() * 100});
 	};
 
 	/**
