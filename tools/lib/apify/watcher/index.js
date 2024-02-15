@@ -32,7 +32,7 @@ export class Watcher {
 	 * Checks results against records stored previously. Returns a summary with updates.
 	 * @param {Array<Object>} results results to check and compare with previous records
 	 * @param {Object} [page] page to extract header/title
-	 * @returns {Promise<{records, updates, outputs}>}
+	 * @returns {Promise<{records: Array<object>, updates: Array<object>, outputs: Array<object>}>}
 	 */
 	check = async (results, page) => {
 		const {
