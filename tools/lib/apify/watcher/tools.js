@@ -33,6 +33,27 @@ export const parsers = {
 
 /**
  *
+ * @param {types.actorInput} input
+ * @returns {types.input}
+ */
+export const Input = input => ({
+	...input,
+	filters: Array.isArray(input.filters) ? input.filters : parsers.filters(input.filters),
+});
+
+/**
+ *
+ * @param {Dataset} dataset
+ * @returns
+ */
+export const getDatasetRecords = async dataset => {
+	const data = await dataset.getData();
+
+	return data.items;
+};
+
+/**
+ *
  * @param {Array<Object>} records
  * @returns {(result: Object) => Boolean}
  */
@@ -81,18 +102,22 @@ const keywordFilter = keywords => update => keywords.some(keyword => JSON.string
 
 /**
  *
- * @param {{updates: Array<Object>, input: types.input}} param0
+ * @param {{updates: Array<Object>, filters: Array<Function>, keywords: Array<string>}} param0
  */
-export const filterUpdates = ({updates, input: {filters, keywords}}) => {
-	if (typeof filters === 'string')
-		filters = parsers.filters(filters);
-
+export const filterUpdates = ({updates, filters, keywords}) => {
 	const filter = (filters?.length && iterateFilters(filters)) || (keywords?.length && keywordFilter(keywords));
 
 	return filter ?
 		updates.filter(filter) :
 		updates;
 };
+
+/**
+ *
+ * @param {Array<Function>} decorators
+ * @returns {(output: Object) => Object}
+ */
+export const extendOutput = decorators => output => decorators.reduce((pool, next) => next(output), output);
 
 /**
  *
