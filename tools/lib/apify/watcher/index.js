@@ -1,13 +1,12 @@
 import {Logue} from 'cyber-logue';
-import dot from 'dot-object';
 
 import {
 	Input,
 	excludeRecords,
-	extendOutput,
 	filterUpdates,
 	getDatasetRecords,
 	getMessage,
+	getResult,
 	notify,
 } from './tools.js';
 import {sleep} from '../../basic.js';
@@ -60,9 +59,9 @@ export class Watcher {
 	 *
 	 * @param {Array<Object>} results
 	 */
-	#probe = async (results, {input: {filters, keywords}, datasets} = this.state) => {
+	#probe = async (results, {input: {filters, keywords}, datasets, decorators} = this.state) => {
 		const records = this.#records || await getDatasetRecords(datasets.records);
-		const updates = results.map(result => dot.object(result)).filter(excludeRecords(records));
+		const updates = results.map(getResult(decorators)).filter(excludeRecords(records));
 		const outputs = filters || keywords ? filterUpdates({updates, filters, keywords}) : updates;
 
 		this.#records = records;
@@ -78,10 +77,7 @@ export class Watcher {
 	 *
 	 * @param {Array<Object>} outputs
 	 */
-	#store = async (outputs, {datasets, decorators} = this.state) => {
-		if (Array.isArray(decorators))
-			outputs = outputs.map(extendOutput(decorators));
-
+	#store = async (outputs, {datasets} = this.state) => {
 		this.#records.push(...outputs);
 		await datasets.records.pushData(outputs);
 

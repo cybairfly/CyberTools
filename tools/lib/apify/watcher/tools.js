@@ -2,6 +2,7 @@ import {Script} from 'vm';
 
 import {Comms} from 'cyber-comms';
 import {Error} from 'cyber-error';
+import dot from 'dot-object';
 
 import {isObject} from '../../basic.js';
 
@@ -118,6 +119,13 @@ export const filterUpdates = ({updates, filters, keywords}) => {
  * @returns {(output: Object) => Object}
  */
 export const extendOutput = decorators => output => decorators.reduce((pool, next) => next(output), output);
+
+/**
+ *
+ * @param {Array<Function>} decorators
+ * @returns {(result: Object) => Object}
+ */
+export const getResult = decorators => result => extendOutput(decorators)(dot.object(result));
 
 /**
  *
