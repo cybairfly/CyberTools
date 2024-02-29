@@ -1,4 +1,4 @@
-export interface CyberErrorOptions {
+export interface options {
     name?: string,
     type?: string,
     data?: Object,
@@ -7,4 +7,4 @@ export interface CyberErrorOptions {
     message?: string
 }
 
-export as namespace types;
+export as namespace _Error;

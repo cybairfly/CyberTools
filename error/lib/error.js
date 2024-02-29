@@ -28,7 +28,7 @@ class CyberError extends global.Error {
      *
      * Log to print custom error or stringify to send
      * all its extra properties outside of the robot.
-     * @param {types.CyberErrorOptions} options
+     * @param {_Error.options} options
      */
 	constructor(options = {}, modelExtras = null) {
 		super(options.message);

@@ -1,7 +1,3 @@
-/**
- * @typedef {import('./types').CyberErrorOptions} CyberErrorOptions
- */
-
 /* eslint-disable max-classes-per-file */
 /* eslint-disable lines-between-class-members */
 import { CyberError } from './error.js';
@@ -49,7 +45,7 @@ class Errors {
 
 	retry = {
 		Step: class extends this.Retry {
-			/** @param {CyberErrorOptions & {step: object, queryInput: boolean}} options */
+			/** @param {_Error.options & {step: object, queryInput: boolean}} options */
 			constructor(options) {
 				super(options);
 				this.step = options.step;
@@ -58,7 +54,7 @@ class Errors {
 			}
 		},
 		Task: class extends this.Retry {
-			/** @param {CyberErrorOptions & {task: object, queryInput: boolean}} options */
+			/** @param {_Error.options & {task: object, queryInput: boolean}} options */
 			constructor(options) {
 				super(options);
 				this.task = options.task;
@@ -73,7 +69,7 @@ class Errors {
 	};
 
 	Status = class extends Error {
-		/** @param {CyberErrorOptions & {statusCode: number}} options */
+		/** @param {_Error.options & {statusCode: number}} options */
 		constructor(options) {
 			super(options);
 			this.message = options.statusCode ?
@@ -84,7 +80,7 @@ class Errors {
 
 	session = {
 		Retain: class extends Error {
-			/** @param {CyberErrorOptions & {message: string}} options */
+			/** @param {_Error.options & {message: string}} options */
 			constructor(options) {
 				super(options);
 				this.message = `Retain session: ${options.message}`;
@@ -93,7 +89,7 @@ class Errors {
 			retainSession = true;
 		},
 		Retire: class extends Error {
-			/** @param {CyberErrorOptions & {message: string}} options */
+			/** @param {_Error.options & {message: string}} options */
 			constructor(options) {
 				super(options);
 				this.message = `Retire session: ${options.message}`;
@@ -102,7 +98,7 @@ class Errors {
 			retireSession = true;
 		},
 		Rotate: class extends Error {
-			/** @param {CyberErrorOptions & {message: string}} options */
+			/** @param {_Error.options & {message: string}} options */
 			constructor(options) {
 				super(options);
 				this.message = `Rotate session: ${options.message}`;
@@ -126,7 +122,7 @@ class Errors {
 	};
 
 	RetryLogin = class extends Error {
-		/** @param {CyberErrorOptions & {requestSecrets: boolean}} options */
+		/** @param {_Error.options & {requestSecrets: boolean}} options */
 		constructor(options) {
 			super(options);
 			this.requestSecrets = options.requestSecrets;
