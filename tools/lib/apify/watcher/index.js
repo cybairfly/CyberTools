@@ -129,8 +129,8 @@ export class Watcher {
 	 * @param {{crawler: types.crawler, request: types.request}} param0
 	 */
 	cycle = async ({crawler, request}, {input} = this.state) => {
-		console.log(`Next cycle in ${input.watchDelay} seconds.`);
-		await sleep((input.watchDelay || 300) * 1000);
+		console.log(`Next cycle in ${input.delay} seconds.`);
+		await sleep((input.delay || 300) * 1000);
 		await crawler.addRequests([{
 			url: request.url,
 			uniqueKey: Date.now().toString(),
