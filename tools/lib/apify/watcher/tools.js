@@ -122,10 +122,10 @@ export const extendOutput = decorators => output => decorators.reduce((pool, nex
 
 /**
  *
- * @param {Array<Function>} decorators
+ * @param {Array<Function> | undefined} decorators
  * @returns {(result: Object) => Object}
  */
-export const getResult = decorators => result => extendOutput(decorators)(dot.object(result));
+export const getResult = decorators => result => decorators ? extendOutput(decorators)(dot.object(result)) : dot.object(result);
 
 /**
  *
