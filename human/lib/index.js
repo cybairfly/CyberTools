@@ -1,5 +1,6 @@
 import {Logue} from 'cyber-logue';
 
+import {login} from './login/index.js';
 import {trackPointer, sleep} from './tools.js';
 
 const log = new Logue().child({prefix: 'Human'});
@@ -76,6 +77,8 @@ class Human {
 
 		this.fill = this.type;
 	}
+
+	login = login;
 
 	/**
      * Human-like typing simulation using random delay between characters.
