@@ -111,22 +111,22 @@ export class Watcher {
 		records,
 		updates,
 		outputs,
-	}) => {
+	}, {input: {filters, keywords}} = this.state) => {
 		this.#log.info({
 			records: records.length,
 			updates: updates.length,
 			outputs: outputs.length,
 		});
 
-		if (outputs.length) {
-			this.#log.info(`Updates without filters: (${updates.length})`);
-			this.#log.info(`Updates matching filters: (${outputs.length})`, {outputs});
+		if (outputs.length || filters?.length || keywords?.length) {
+			// this.#log.info(`Updates without filters: (${updates.length})`);
+			this.#log.info('Updates matching filters:', {outputs});
 		}
 	};
 
 	/**
 	 *
-	 * @param {{crawler: types.crawler, request: types.request}} param0
+	 * @param {{crawler: _Watcher.crawler, request: _Watcher.request}} param0
 	 */
 	cycle = async ({crawler, request}, {input} = this.state) => {
 		console.log(`Next cycle in ${input.delay} seconds.`);
