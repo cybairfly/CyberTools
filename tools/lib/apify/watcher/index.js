@@ -2,7 +2,7 @@ import {Logue} from 'cyber-logue';
 
 import {
 	Input,
-	excludeRecords,
+	excludeMatches,
 	filterUpdates,
 	getDatasetRecords,
 	getMessage,
@@ -60,10 +60,10 @@ export class Watcher {
 	 *
 	 * @param {Array<Object>} results
 	 */
-	#probe = async (results, {input: {filters, keywords}, datasets, decorators} = this.state) => {
+	#probe = async (results, {input: {filters, matcher, keywords}, datasets, decorators} = this.state) => {
 		const records = this.#records || await getDatasetRecords(datasets.records);
-		const updates = results.map(getResult(decorators)).filter(excludeRecords(records));
-		const outputs = filters || keywords ? filterUpdates({updates, filters, keywords}) : updates;
+		const updates = results.map(getResult(decorators)).filter(excludeMatches(records));
+		const outputs = filters || keywords ? filterUpdates({records, updates, filters, matcher, keywords}) : updates;
 
 		this.#records = records;
 		this.#records.push(...updates);

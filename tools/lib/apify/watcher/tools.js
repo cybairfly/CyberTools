@@ -56,9 +56,17 @@ export const getDatasetRecords = async dataset => {
 /**
  *
  * @param {Array<Object>} records
+ * @param {Array<Object>} _records
+ * @returns {(result: Object) => Object | undefined}
+ */
+export const recordMatcher = (records, _records) => _result => records[_records.findLastIndex(_record => JSON.stringify(_result) === JSON.stringify(_record))];
+
+/**
+ *
+ * @param {Array<Object>} records
  * @returns {(result: Object) => Boolean}
  */
-export const excludeRecords = records => result => !records.some(record => JSON.stringify(result) === JSON.stringify(record));
+export const excludeMatches = records => result => !records.some(record => JSON.stringify(result) === JSON.stringify(record));
 // export const excludeRecords = records => result => !records.some(record => {
 // 	const values = {
 // 		record: Object.values(record),
@@ -70,11 +78,17 @@ export const excludeRecords = records => result => !records.some(record => JSON.
 
 /**
  *
- * @param {{filter: Function, update: Object}} param0
+ * @param {{filter: Function, update: Object, record?: Object | undefined}} param0
  */
-const catchFilter = ({filter, update}) => {
+const filterApplier = ({filter, update, record}) => {
+	const ignoreFilter = filter.length > 1 && !record;
+	if (ignoreFilter) return true;
+
 	try {
-		return filter(update);
+		const result = filter(update, record || {});
+		console.log({filter: filter.toString(), record, update, result: result && update});
+
+		return result;
 	} catch (error) {
 		console.error(new Error({
 			// @ts-ignore
@@ -90,9 +104,34 @@ const catchFilter = ({filter, update}) => {
 /**
  *
  * @param {Array<Function>} filters
- * @returns {(update: Object) => Boolean}
+ * @returns {(params: {filter: Function, update: Object, record: Object}) => Object | undefined}
  */
-const iterateFilters = filters => update => !!filters.every(filter => catchFilter({filter, update}));
+const applyFilters = filters => update => !!filters.every(filter => filterApplier({filter, update}));
+
+const iterateFilters = {
+	/**
+	 *
+	 * @param {Array<Function>} filters
+	 * @returns {(update: Object) => Boolean}
+	 */
+	absolute: filters => update => !!filters.every(filter => filterApplier({filter, update})),
+
+	/**
+	 *
+	 * @param {Array<Function>} filters
+	 * @param {Function} matcher
+	 * @param {Function} _matchRecord
+	 * @returns {(update: Object) => Boolean}
+	 */
+	relative: (filters, matcher, _matchRecord) => update => !!filters.every(filter => filterApplier({filter, update, record: _matchRecord(matcher(update))})),
+
+	/**
+	 *
+	 * @param {Array<Function>} filters
+	 * @returns {(params: {filter: Function, update: Object, record: Object}) => Object | undefined}
+	 */
+	common: filters => params => !!filters.every(filter => filterApplier(params)),
+};
 
 /**
  *
@@ -103,11 +142,55 @@ const keywordFilter = keywords => update => keywords.some(keyword => JSON.string
 
 /**
  *
- * @param {{updates: Array<Object>, filters: Array<Function>, keywords: Array<string>}} param0
+ * @param {Array<Function>} filters
+ * @returns
  */
-export const filterUpdates = ({updates, filters, keywords}) => {
-	const filter = (filters?.length && iterateFilters(filters)) || (keywords?.length && keywordFilter(keywords));
+const divideFilters = filters => ({
+	absolute: filters.filter(filter => !(filter.length > 1)),
+	relative: filters.filter(filter => filter.length > 1),
+});
 
+const processFilters = {
+	/**
+	 *
+	 * @param {_Watcher.filters} filters
+	 * @returns {(update: Object) => Boolean}
+	 */
+	absolute: filters => update => !!filters.every(filter => filterApplier({filter, update})),
+	relative: filters => (matcher, updateMatcher) => update => !!filters.every(filter => filterApplier({filter, update, record: updateMatcher(matcher(update))})),
+};
+
+/**
+ *
+ * @param {{absolute: Array<Function> | undefined, relative: Array<Function> | undefined}} filters
+ * @param {Function} matcher
+ * @param {Array<Object>} records
+ * @returns
+ */
+const createFilter = (filters, matcher, records) => filters.relative?.length ?
+
+	/**
+	 *
+	 * @param {Object} update
+	 * @returns
+	 */
+	update => processFilters.absolute(filters.absolute)(update) && processFilters.relative(filters.relative)(matcher, recordMatcher(records, records.map(record => matcher(record))))(update) :
+
+	/**
+	 *
+	 * @param {Object} update
+	 * @returns
+	 */
+	update => processFilters.absolute(filters.absolute)(update);
+
+/**
+ *
+ * @param {{records: Array<Object>, updates: Array<Object>, filters: Array<Function>, keywords: Array<string>, matcher?: Function}} param0
+ */
+export const filterUpdates = ({records, updates, filters, matcher, keywords}) => {
+	const filter = (filters?.length && createFilter(divideFilters(filters), matcher, records)) || (keywords?.length && keywordFilter(keywords));
+
+	// updates.reduce((result, update) => [...result, [update, recordMatcher(records, records.map(record => matcher(record)))]], []);
 	return filter ?
 		updates.filter(filter) :
 		updates;
