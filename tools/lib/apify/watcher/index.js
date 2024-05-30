@@ -18,7 +18,7 @@ export class Watcher {
 
 	/**
 	 *
-	 * @param {{input: WatcherTypes.input, datasets: WatcherTypes.datasets, decorators?: Array<Function>}} param
+	 * @param {{input: _Watcher.input, datasets: _Watcher.datasets, decorators?: Array<Function>}} param
 	 */
 	constructor({input, datasets, decorators}) {
 		this.state = {
