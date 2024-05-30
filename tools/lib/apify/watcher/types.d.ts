@@ -11,6 +11,8 @@ export type datasets = {
 	records: object
 }
 
+export type filters = Array<Function>
+
 export type scraper =
 	Partial<typeof models.scraper> &
 	{ selectors: typeof models.scraper.selectors } &
@@ -29,7 +31,7 @@ export type input =
 	Partial<typeof models.input> &
 	typeof models.force.input &
 	({ config: typeof models.input.config } | { url: typeof models.input.url }) &
-	{ filters: Array<Function> } &
+	{ filters: filters } &
 	{ scrapers: scrapers } &
 	{ cookies?: Cookie }
 
@@ -61,4 +63,4 @@ export type state = {
 	selectors: selectors,
 }
 
-export as namespace WatcherTypes;
+export as namespace _Watcher;
