@@ -41,10 +41,11 @@ export class Watcher {
 			outputs,
 		} = await this.#probe(results);
 
-		if (outputs.length) {
-			await this.#store(outputs);
+		if (updates.length)
+			await this.#store(updates, outputs);
+
+		if (outputs.length)
 			await this.#alert(outputs, page);
-		}
 
 		this.#print({records, updates, outputs});
 
@@ -65,6 +66,7 @@ export class Watcher {
 		const outputs = filters || keywords ? filterUpdates({updates, filters, keywords}) : updates;
 
 		this.#records = records;
+		this.#records.push(...updates);
 
 		return {
 			records,
@@ -75,13 +77,13 @@ export class Watcher {
 
 	/**
 	 *
+	 * @param {Array<Object>} updates
 	 * @param {Array<Object>} outputs
 	 */
-	#store = async (outputs, {datasets} = this.state) => {
-		this.#records.push(...outputs);
-		await datasets.records.pushData(outputs);
+	#store = async (updates, outputs, {datasets} = this.state) => {
+		await datasets.records.pushData(updates);
 
-		if (datasets.default)
+		if (datasets.default && outputs.length)
 			await datasets.default.pushData(outputs);
 	};
 
