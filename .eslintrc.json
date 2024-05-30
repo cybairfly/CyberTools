@@ -35,7 +35,7 @@
         ],
         "operator-linebreak": [
             "warn",
-            "before",
+            "after",
             {
                 "overrides": {
                     "?": "ignore",
