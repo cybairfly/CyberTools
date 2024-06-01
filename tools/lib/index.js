@@ -1,9 +1,9 @@
-import dot from 'dot-object';
+import * as basic from './basic.js';
+import * as object from './object.js';
 
-export * from './apify/index.js';
-export * from './basic.js';
-export * from './object.js';
+export * as dot from 'dot-object';
 
-export {
-	dot,
+export const tools = {
+	...basic,
+	object,
 };

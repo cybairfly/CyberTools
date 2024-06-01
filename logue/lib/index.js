@@ -1,9 +1,11 @@
 import {Log, LEVELS, LEVEL_TO_STRING} from '@apify/log';
 import colors from 'ansi-colors';
-import {redact, redactCommon} from 'cyber-tools';
+import {tools} from 'cyber-tools';
 
 import {LEVEL_TO_COLOR} from './consts.js';
 import {CustomLoggers, Reducers, extendDefaultLoggers, getLevels} from './tools.js';
+
+const {redact, redactCommon} = tools.object;
 
 const levels = getLevels(LEVEL_TO_STRING);
 
