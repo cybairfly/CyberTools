@@ -17,8 +17,9 @@
         "simulation"
     ],
     "dependencies": {
-        "cyber-consts": "file:../consts",
+        "apify-tools": "file:../apify",
         "cyber-comms": "file:../comms",
+        "cyber-consts": "file:../consts",
         "cyber-error": "file:../error",
         "cyber-human": "file:../human",
         "cyber-lobby": "file:../lobby",

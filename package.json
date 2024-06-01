@@ -1,11 +1,12 @@
 {
     "name": "cyber-codex-monorepo",
-	"type": "module",
+    "type": "module",
     "main": "index.js",
     "description": "Monorepo for installation from repository, development purposes only. Install the codex package or individual published packages for production.",
     "dependencies": {
-        "cyber-consts": "file:./consts",
+        "apify-tools": "file:apify",
         "cyber-comms": "file:./comms",
+        "cyber-consts": "file:./consts",
         "cyber-error": "file:./error",
         "cyber-human": "file:./human",
         "cyber-lobby": "file:./lobby",
@@ -19,7 +20,7 @@
         "eslint": "^8.54.0",
         "typescript": "^5.3.2"
     },
-	"repository": {
+    "repository": {
         "type": "git",
         "url": "git+https://github.com/cybairfly/CyberCodex.git"
     },

@@ -1,0 +1,33 @@
+{
+	"name": "apify-tools",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Apify-specific toolset",
+	"main": "lib/index.js",
+	"files": [
+		"/lib",
+		"README.md"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"dependencies": {
+		"cyber-comms": "file:../comms",
+		"cyber-error": "file:../error",
+		"cyber-logue": "file:../logue",
+		"cyber-tools": "file:../tools",
+		"dot-object": "^2.1.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cybairfly/CyberCodex.git"
+	},
+	"author": {
+		"name": "Vasek Codey Vlcek",
+		"email": "cyberfly@email.cz",
+		"url": "https://github.com/cybairfly"
+	}
+}
