@@ -1,7 +1,7 @@
 {
 	"name": "cyber-lobby",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Login tools for automated handling of authentication",
 	"main": "lib/index.js",
 	"files": [
