@@ -1,5 +1,7 @@
 import {TIMEOUTS} from 'cyber-consts';
-import {sleep} from 'cyber-tools';
+import {tools} from 'cyber-tools';
+
+const {sleep} = tools;
 
 /**
  * Attempts login with provided details and inputs.
