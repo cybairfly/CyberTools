@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"cyber-comms": "file:../comms",
+		"cyber-consts": "file:../consts",
 		"cyber-error": "file:../error",
 		"cyber-logue": "file:../logue",
 		"dot-object": "^2.1.4"
