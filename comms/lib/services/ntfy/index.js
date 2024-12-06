@@ -21,7 +21,7 @@ export class Ntfy extends Service {
 		// this.log.info('Validation:', request);
 	};
 
-	Message = ({message, channel, options: {title, priority, tags}}) => ({
+	Message = ({message, channel, options: {title, priority = 4, tags}}) => ({
 		method: 'POST',
 		url: `http://ntfy.sh/${this.channel || channel}`,
 		headers: {
