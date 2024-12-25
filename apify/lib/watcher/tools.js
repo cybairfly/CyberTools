@@ -116,10 +116,10 @@ export const filterUpdates = ({updates, filters, keywords}) => {
 
 /**
  *
- * @param {Array<Function>} decorators
- * @returns {(output: Object) => Object}
+ * @param {Array<Function>} extenders
+ * @returns {(output: any) => any}
  */
-export const extendOutput = decorators => output => decorators.reduce((pool, next) => next(output), output);
+export const extendOutput = extenders => output => extenders.reduce((pool, next) => next(output), output);
 
 /**
  *
@@ -130,10 +130,20 @@ export const getResult = decorators => result => decorators ? extendOutput(decor
 
 /**
  *
+ * @param {Array<Function> | undefined} signatures
+ * @returns {(output: object) => string}
+ */
+export const getMessage = signatures =>
+	signatures ?
+		output => signMessage(joinMessage(output), signatures) :
+		output => joinMessage(output);
+
+/**
+ *
  * @param {Object} output
  * @returns {string}
  */
-export const getMessage = output =>
+export const joinMessage = output =>
 	Object
 		.entries(output)
 		.flatMap(([key, value]) =>
@@ -141,6 +151,15 @@ export const getMessage = output =>
 				getMessage(value) :
 				value)
 		.join('\n');
+
+/**
+ *
+ * @param {string} message
+ * @param {Array<Function>} signatures
+ * @returns {string}
+ */
+export const signMessage = (message, signatures) => extendOutput(signatures)(message);
+// export const signMessage = (message, signatures) => `${message}\n\n${signatures?.join('\n')}`;
 
 /**
  *

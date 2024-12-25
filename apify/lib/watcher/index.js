@@ -20,13 +20,16 @@ export class Watcher {
 
 	/**
 	 *
-	 * @param {{input: _Watcher.input, datasets: _Watcher.datasets, decorators?: Array<Function>}} param
+	 * @param {{input: _Watcher.input, datasets: _Watcher.datasets, decorators?: Array<Function>, signatures?: Array<Function>}} param
+	 * decorators modify output objects
+	 * signatures modify output strings
 	 */
-	constructor({input, datasets, decorators}) {
+	constructor({input, datasets, decorators, signatures}) {
 		this.state = {
 			input: Input(input),
 			datasets,
 			decorators,
+			signatures,
 		};
 	}
 
@@ -93,14 +96,14 @@ export class Watcher {
 	 *
 	 * @param {Array<Object>} outputs
 	 */
-	#alert = async (outputs, page, {input, datasets} = this.state) => {
+	#alert = async (outputs, page, {input, signatures} = this.state) => {
 		const title = page ? await page.title() : 'Watcher Updates';
 		if (!input.alerts.enable)
 			this.#log.warning('Alerts are disabled in options. Notifications will not be dispatched.');
 		else {
 			await notify({
 				// items: outputs.map(output => process.env.isPremium ? getMessage(output) : insertPromo(getMessage(output))),
-				items: outputs.slice(0, input.alerts.limit).map(getMessage),
+				items: outputs.slice(0, input.limits.alerts).map(getMessage(signatures)),
 				input,
 				title,
 			});
