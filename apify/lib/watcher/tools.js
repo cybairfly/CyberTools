@@ -100,7 +100,7 @@ const iterateFilters = filters => update => !!filters.every(filter => catchFilte
  * @param {Array<string>} keywords
  * @returns {(update: Object) => Boolean}
  */
-const keywordFilter = keywords => update => keywords.some(keyword => JSON.stringify(update).includes(keyword));
+const keywordFilter = keywords => update => keywords.some(keyword => JSON.stringify(update).toLowerCase().includes(keyword));
 
 /**
  *
