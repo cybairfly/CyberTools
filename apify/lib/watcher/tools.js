@@ -75,7 +75,7 @@ export const excludeRecords = records => result => !records.some(record => JSON.
  */
 const catchFilter = ({filter, update}) => {
 	try {
-		return filter(update);
+		return filter(JSON.parse(JSON.stringify(update).toLowerCase()));
 	} catch (error) {
 		console.error(new Error({
 			// @ts-ignore
