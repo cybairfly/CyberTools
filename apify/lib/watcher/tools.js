@@ -148,7 +148,7 @@ export const joinMessage = output =>
 		.entries(output)
 		.flatMap(([key, value]) =>
 			isObject(value) ?
-				getMessage(value) :
+				getMessage(undefined)(value) :
 				value)
 		.join('\n');
 
